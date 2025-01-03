@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>System Biletowy Kina</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">    
+    </head>
+    <body>
+
+        {% include 'navigation.html' %}
+
+        <div class="container">
+            <div class="row">
+              <div class="col">
+                    <!-- <img src='https://fwcdn.pl/fpo/81/30/10048130/8139711.3.jpg' class="img-fluid" alt="..."> -->
+                    <img src={{movie.image_url}} class="img-fluid" alt="...">
+              </div>
+              <div class="col">
+                <h1 class="h1"> 
+                    {{ movie.title }}
+                </h1>
+                <p>
+                    {{ movie.description }}
+                </p>
+                <div class="d-flex flex-wrap gap-5">
+                    <div width="200px">
+                        <p class="p">Długość</p>
+                        <p class="p"> {{ movie.duration }} minut</p>
+                    </div>
+                    <div width="200px">
+                        <p class="p">Data wydania</p>
+                        <p class="p"> {{ movie.release_date }} </p>
+                    </div>
+
+                </div>
+                <button id="Kup_bilet" class="btn btn-primary rounded-3 px-4">Kup bilet</button>
+            </div>
+        </div>
+            <div class="mt-5">
+                <h2 class="h2">
+                    Najbliższe seanse
+                </h2>
+
+                <h3> 
+                    Dzisiaj
+                </h3>
+                <div class="d-flex flex-wrap gap-3"> 
+                    {% for showing in showings %}
+                    <div class="card " style="width: 200px;" >
+                        <a href='/showing/{{showing.showing_id}}' class="card-body">
+                            <h5 class="card-title"> {{ showing.show_time.time() }} </h5>
+                            <div class="d-flex gap-2">
+                                <p class="card-text"> {{ showing.movie_format }}</p>
+                                <p class="card-text"> {{ showing.lang_type }}</p>
+                            </div>
+
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+       
+    </body>
+
+    {% include 'footer.html' %}
+
+</html>
