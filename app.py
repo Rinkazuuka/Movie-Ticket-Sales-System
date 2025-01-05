@@ -27,16 +27,8 @@ def showing(showing_id):
     return render_template('showing.html', showing=showing)
 
 
-
 with app.app_context():
     db.create_all()  # Tworzy wszystkie tabele
-    # new_user = Movie(title='Vaiana 2', description='Vaiana wraz z nowymi kompanami wyrusza w podróż po dalekich wodach Oceanii, by odszukać inne ludzkie plemiona.', duration=120, release_date=date(2001, 12, 30), image_url="https://fwcdn.pl/fpo/81/30/10048130/8139711.3.jpg")
-    # db.session.add(new_user)
-    # db.session.commit()
-
-    # showing = Showing(movie_id=1, movie_format="2D", lang_type="dubbing", show_time=datetime(2025, 2, 1, 18, 00), available_seats=30)
-    # db.session.add(showing)
-    # db.session.commit()
 
 if __name__ == '__main__':
     app.run(debug=True)
