@@ -4,26 +4,26 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-5 mb-5">
     <div class="row">
         <div class="col">
             <!-- <img src='https://fwcdn.pl/fpo/81/30/10048130/8139711.3.jpg' class="img-fluid" alt="..."> -->
-            <img src={{movie.image_url}} class="img-fluid" alt="...">
+            <img src={{movie.image_url}} height="550px">
         </div>
         <div class="col">
-            <h1 class="h1">
+            <h1 class="h1 fw-bold text-uppercase pb-2">
                 {{ movie.title }}
             </h1>
-            <p>
+            <p class="p fs-5 pb-2">
                 {{ movie.description }}
             </p>
-            <div class="d-flex flex-wrap gap-5">
-                <div width="200px">
-                    <p class="p">Długość</p>
+            <div class="d-flex flex-wrap gap-5 pb-2">
+                <div class="d-flex flex-column" width="200px">
+                    <p class=" fw-bold mb-1">Czas trwania</p>
                     <p class="p"> {{ movie.duration }} minut</p>
                 </div>
-                <div width="200px">
-                    <p class="p">Data wydania</p>
+                <div class="d-flex flex-column" width="200px">
+                    <p class=" fw-bold mb-1">Data premiery</p>
                     <p class="p"> {{ movie.release_date }} </p>
                 </div>
 
@@ -32,28 +32,30 @@
         </div>
     </div>
     <div class="mt-5">
-        <h2 class="h2">
+        <h2 class="h2 mb-4 text-uppercase fw-bold">
             Najbliższe seanse
         </h2>
-
-        <h3>
-            Dzisiaj
+        {% for date, shows in grouped_showings.items() %}
+        <h3 class="h3">
+            {{ 'Dzisiaj' if date == current_date else date.strftime('%d.%m.%Y') }}
         </h3>
-        <div class="d-flex flex-wrap gap-3">
-            {% for showing in showings %}
-            <div class="card " style="width: 200px;">
+        <div class="d-flex flex-wrap gap-3 mb-4">
+            {% for showing in shows %}
+            <div class="card p-1" style="width: 200px;">
                 <a href='/showing/{{showing.showing_id}}' target="_blank" class="card-body">
-                    <h5 class="card-title"> {{ showing.show_time.time() }} </h5>
+                    <h5 class="card-title"> {{ showing.show_time.strftime('%H:%M') }} </h5>
                     <div class="d-flex gap-2">
-                        <p class="card-text"> {{ showing.movie_format }}</p>
-                        <p class="card-text"> {{ showing.lang_type }}</p>
+                        <p class="p card-text m-0"> {{ showing.movie_format }}</p>
+                        <p class="p card-text m-0"> {{ showing.lang_type }}</p>
                     </div>
-
                 </a>
             </div>
             {% endfor %}
         </div>
+        {% endfor %}
+
     </div>
+</div>
 </div>
 
 {% endblock %}

@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 from database import db, Movie, Showing
 from datetime import date, datetime
+from collections import defaultdict
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
@@ -20,7 +22,14 @@ def show_movies():
 def movie_details(movie_id=1):
     movie = Movie.query.filter_by(movie_id=movie_id).first()
     showings = Showing.query.filter_by(movie_id=movie_id)
-    return render_template("movie.html", movie=movie, showings=showings)
+    grouped_showings = defaultdict(list)
+    for showing in showings:
+        show_date = showing.show_time.date()
+        grouped_showings[show_date].append(showing)
+    # Przekazanie zgrupowanych seansów do szablonu
+    return render_template('movie.html', movie=movie, showings=showings, grouped_showings=grouped_showings, current_date=datetime.now().date())
+    
+    # return render_template("movie.html", movie=movie, showings=showings)
 
 
 @app.route("/showing/<showing_id>")

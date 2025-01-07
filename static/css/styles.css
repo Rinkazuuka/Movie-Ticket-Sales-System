@@ -2,3 +2,26 @@ img {
     border-radius: 16px;
     object-fit: cover;
 }
+
+.h1{
+    font-size: xx-large;
+}
+
+.h2 {
+    font-size: x-large;
+}
+
+.h3 { 
+    font-size: large;
+}
+
+.p {
+    color: #4B4747;
+}
+.btn-primary {
+    
+}
+
+a {
+    text-decoration: none;
+}
