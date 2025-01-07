@@ -18,6 +18,8 @@ class Movie(db.Model):
     # direction= db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    showings = db.relationship('Showing', back_populates='movie')
+
 
 # class Screen(db.Model):
 #     __tablename__ = 'screens'
@@ -38,6 +40,8 @@ class Showing(db.Model):
     lang_type = db.Column(db.String(20), nullable=False)  # dubbing/napisy/lektor
     show_time = db.Column(db.DateTime, nullable=False)
     available_seats = db.Column(db.Integer, nullable=False)
+
+    movie = db.relationship('Movie', back_populates='showings')
 
     # movie = relationship('Movie', foreign_keys='Showing.movie_id')
     # showing = relationship('Movie', foreign_keys='Showing.showing_id')

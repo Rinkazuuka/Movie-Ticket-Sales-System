@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}System Biletowy Kina{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1PbovF0TeU5VSDSha2t9qDqOyoMl9HRUxCQ&s"
+                    width="30" height="24" class="d-inline-block align-text-top me-2">
+                Kinomaniacy
+            </a>
+            <div class="d-flex gap-3">
+                <img src="/time-left.png" height="24px" width="24px">
+                <div id="timer">Zostało <span id="countdown"></span></div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between">
+            <button id="Wstecz" class="btn btn-secondary rounded-3 px-4">Wstecz</button>
+            <button id="Przejdz_dalej" class="btn btn-primary rounded-3 px-4">Przejdź dalej</button>
+        </div>
+    </div>
+
+    <script>
+        // Ustaw czas sesji w sekundach (np. 5 minut)
+        const sessionTime = 5 * 60; // 5 minut w sekundach
+
+        // Sprawdź, czy czas pozostały jest już zapisany w sessionStorage
+        let timeLeft = sessionStorage.getItem('timeLeft') ? parseInt(sessionStorage.getItem('timeLeft')) : sessionTime;
+
+        // Funkcja do aktualizacji timera
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+
+            // Formatuj czas jako MM:SS
+            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('countdown').textContent = formattedTime;
+
+            // Sprawdź, czy czas się skończył
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Sesja wygasła. Zostaniesz wylogowany.");
+                // Możesz dodać kod do przekierowania
+                // window.location.href = 'index.html'; // Przykład przekierowania
+            } else {
+                timeLeft--;
+                // Zapisz pozostały czas w sessionStorage
+                sessionStorage.setItem('timeLeft', timeLeft);
+            }
+        }
+
+        // Rozpocznij odliczanie
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // Początkowe wywołanie, aby natychmiast wyświetlić timer
+        updateTimer();
+    </script>
+
+</body>
+
+</html>

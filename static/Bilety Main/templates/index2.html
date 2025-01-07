@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Biletowy Kina</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <style>
+        .seat {
+            width: 30px;
+            height: 30px;
+            margin: 2px;
+            display: inline-block;
+            cursor: pointer;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 3px;
+        }
+        .available { background-color: #28a745; color: white; }
+        .selected { background-color: #007bff; color: white; }
+        .reserved { background-color: #dc3545; color: white; cursor: not-allowed; }
+        .step { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="step active" id="step1">
+            <h2>Wybierz film</h2>
+            <div class="row" id="moviesList">
+                <!-- JAVASCRIPT-->
+            </div>
+        </div>
+        
+        <div class="step" id="step2">
+            <h2>Wybierz seans</h2>
+            <div class="row" id="showsList">
+                <!-- JAVASCRIPT-->
+            </div>
+        </div>
+
+        <div class="step" id="step3">
+            <h2>Wybierz miejsca</h2>
+            <div id="seatsContainer" class="text-center mt-3">
+                <!-- JAVASCRIPT -->
+            </div>
+            <div class="mt-3">
+                <select id="ticketType" class="form-select">
+                    <option value="normal">Bilet normalny - 25 zł</option>
+                    <option value="reduced">Bilet ulgowy - 18 zł</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="step" id="step4">
+            <h2>Płatność</h2>
+            <form id="paymentForm">
+                <div class="mb-3">
+                    <label>Email</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label>Numer karty</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Zapłać</button>
+            </form>
+        </div>
+
+        <div class="mt-3">
+            <button id="prevStep" class="btn btn-secondary" style="display: none;">Wstecz</button>
+            <button id="nextStep" class="btn btn-primary">Dalej</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedMovie = null;
+        let selectedShow = null;
+        let selectedSeats = [];
+
+        function showStep(step) {
+            $('.step').removeClass('active');
+            $(`#step${step}`).addClass('active');
+            $('#prevStep').toggle(step > 1);
+            $('#nextStep').toggle(step < 4);
+        }
+
+        // TU TRZEBA WRZUCIĆ API
+        const movies = [
+            {id: 1, title: "Film 1", description: "Opis filmu 1"},
+            {id: 2, title: "Film 2", description: "Opis filmu 2"}
+        ];
+
+        // TU SIE ŁADUJĄ DANE
+        $(document).ready(function() {
+            // WYŚWIETL FILMY
+            movies.forEach(movie => {
+                $('#moviesList').append(`
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>${movie.title}</h5>
+                                <p>${movie.description}</p>
+                                <button class="btn btn-primary select-movie" data-id="${movie.id}">Wybierz</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+
+            // WYBIERZ FILMIK SOBIE
+            $('.select-movie').click(function() {
+                selectedMovie = $(this).data('id');
+                currentStep = 2;
+                showStep(currentStep);
+                
+                // JAKIEŚ TAM PRZYKŁADOWE SEANSE
+                $('#showsList').html(`
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5>18:00</h5>
+                                <button class="btn btn-primary select-show" data-id="1">Wybierz</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+
+            // WYBIERZ SEANS
+            $(document).on('click', '.select-show', function() {
+                selectedShow = $(this).data('id');
+                currentStep = 3;
+                showStep(currentStep);
+                
+                // JAKIEŚ TAM MIEJSCA LOSOWE WYGENEROWANE
+                let seatsHtml = '';
+                for(let i = 1; i <= 5; i++) {
+                    for(let j = 1; j <= 8; j++) {
+                        seatsHtml += `<div class="seat available" data-id="${i}-${j}">${i}-${j}</div>`;
+                    }
+                    seatsHtml += '<br>';
+                }
+                $('#seatsContainer').html(seatsHtml);
+            });
+
+            // WYBIERZ MIEJSCE
+            $(document).on('click', '.seat.available', function() {
+                $(this).toggleClass('available selected');
+            });
+
+            // NAWIGACJA
+            $('#nextStep').click(function() {
+                currentStep++;
+                showStep(currentStep);
+            });
+
+            $('#prevStep').click(function() {
+                currentStep--;
+                showStep(currentStep);
+            });
+
+            // PŁATNOŚĆ
+            $('#paymentForm').submit(function(e) {
+                e.preventDefault();
+                alert('Dziękujemy za zakup!');
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+</html>
