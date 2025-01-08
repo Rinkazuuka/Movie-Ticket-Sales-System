@@ -1,5 +1,5 @@
 // Ustaw czas sesji w sekundach (np. 5 minut)
-const sessionTime = 15 * 60; // 5 minut w sekundach
+const sessionTime = 1 * 10; // 5 minut w sekundach
 
 // Sprawdź, czy czas pozostały jest już zapisany w sessionStorage
 let timeLeft = sessionStorage.getItem('timeLeft') ? parseInt(sessionStorage.getItem('timeLeft')) : sessionTime;
@@ -17,8 +17,10 @@ function updateTimer() {
     if (timeLeft <= 0) {
         clearInterval(timerInterval);
         alert("Sesja wygasła. Zostaniesz wylogowany.");
+        // Usuń pozostały czas z sessionStorage
+        sessionStorage.removeItem('timeLeft');
         // Możesz dodać kod do przekierowania
-        // window.location.href = 'index.html'; // Przykład przekierowania
+        window.location.href = '/'; // Przykład przekierowania
     } else {
         timeLeft--;
         // Zapisz pozostały czas w sessionStorage
@@ -31,5 +33,3 @@ const timerInterval = setInterval(updateTimer, 1000);
 
 // Początkowe wywołanie, aby natychmiast wyświetlić timer
 updateTimer();
-
-
