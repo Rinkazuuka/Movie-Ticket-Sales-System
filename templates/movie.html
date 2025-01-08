@@ -1,6 +1,6 @@
 {% extends "base_website.html" %}
 
-{% block title %}Szczegóły Filmu {% endblock %}
+{% block title %}Szczegóły Filmu{% endblock %}
 
 {% block content %}
 
@@ -28,11 +28,11 @@
                 </div>
 
             </div>
-            <button id="Kup_bilet" class="btn btn-primary rounded-3 px-4">Kup bilet</button>
+            <a href="#seanse"><button id="Kup_bilet" class="btn btn-primary rounded-3 px-4">Kup bilet</button></a>
         </div>
     </div>
     <div class="mt-5">
-        <h2 class="h2 mb-4 text-uppercase fw-bold">
+        <h2 class="h2 mb-4 text-uppercase fw-bold" id="seanse">
             Najbliższe seanse
         </h2>
         {% for date, shows in grouped_showings.items() %}
@@ -41,7 +41,7 @@
         </h3>
         <div class="d-flex flex-wrap gap-3 mb-4">
             {% for showing in shows %}
-            <div class="card p-1" style="width: 200px;">
+            <div class="card p-1 showing-card" style="width: 200px;">
                 <a href='/showing/{{showing.showing_id}}' target="_blank" class="card-body">
                     <h5 class="card-title"> {{ showing.show_time.strftime('%H:%M') }} </h5>
                     <div class="d-flex gap-2">

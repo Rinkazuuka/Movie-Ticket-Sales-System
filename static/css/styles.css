@@ -1,3 +1,5 @@
+
+
 img {
     border-radius: 16px;
     object-fit: cover;
@@ -18,10 +20,54 @@ img {
 .p {
     color: #4B4747;
 }
+
 .btn-primary {
-    
+    background-color: #673B8D;
+    border-color: #673B8D;
 }
+
+.btn-primary:hover {
+    background-color: #734494; 
+    border-color: #734494; 
+}
+
+
+.btn-outline-secondary {
+    color: black;
+}
+
 
 a {
     text-decoration: none;
+}
+
+
+
+#lower-footer {
+    background-color: #673B8D;
+    color: white;
+}
+
+.showing-card:hover {
+    border-color: #673B8D;
+    background-color: #e1ccf3;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    background-color: lightgray;
+}
+
+.button-container {
+    margin-top: auto; 
 }
