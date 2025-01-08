@@ -4,17 +4,16 @@
 
 {% block content %}
 
-<div class="container mt-5 mb-5">
-    <div class="row">
-        <div class="col-lg-4">
-            <!-- <img src='https://fwcdn.pl/fpo/81/30/10048130/8139711.3.jpg' class="img-fluid" alt="..."> -->
-            <img src={{movie.image_url}} class="image-fluid w-100">
+<div id="movie-basics" class="container mt-5 mb-5">
+    <div class="row gap-5">
+        <div class="col-4" id="movie-image-container">
+            <img id="movie-image" src={{movie.image_url}} class="image-fluid w-100">
         </div>
-        <div class="ps-5 col">
+        <div class="col">
             <h1 class="h1 fw-bold text-uppercase pb-2">
                 {{ movie.title }}
             </h1>
-            <p class="p fs-5 pb-2">
+            <p class="p pb-2">
                 {{ movie.description }}
             </p>
             <div class="d-flex flex-wrap gap-5 pb-2">
@@ -42,7 +41,7 @@
         <div class="d-flex flex-wrap gap-3 mb-4">
             {% for showing in shows %}
             <div class="card p-1 showing-card" style="width: 200px;">
-                <a href='/showing/{{showing.showing_id}}' target="_blank" class="card-body">
+                <a href='/showing/{{showing.showing_id}}' class="card-body">
                     <h5 class="card-title"> {{ showing.show_time.strftime('%H:%M') }} </h5>
                     <div class="d-flex gap-2">
                         <p class="p card-text m-0"> {{ showing.movie_format }}</p>
