@@ -24,7 +24,7 @@ def seed_db():
             description="Joe Gardner prowadzi zespół muzyczny w gimnazjum. Jego prawdziwą pasją jest jednak jazz. Joe przeżywa kryzys - zaczyna zadawać sobie pytania: Po co tu jestem? Jaki jest cel mojego życia?",
             duration=106,
             release_date=date(2020, 3, 5),
-            image_url="https://static.wikia.nocookie.net/pixar/images/4/46/Co_w_duszy_gra_poster_2.jpg/revision/latest?cb=20200314201141&path-prefix=pl",
+            image_url="https://pelnasala.pl/wp-content/uploads/2021/03/000AL6DUAHLIREO8-C125.jpg",
         ),
         Movie(
             title="Naprzód",
