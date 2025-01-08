@@ -43,6 +43,9 @@ def showing(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
     return render_template("showing.html", showing=showing)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 with app.app_context():
     db.create_all()  # Tworzy wszystkie tabele
