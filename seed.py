@@ -60,7 +60,7 @@ def seed_db():
             show_time=datetime(2025, 2, 1, 18, 00),
             available_seats=30,
         ),
-         Showing(
+        Showing(
             movie_id=1,
             movie_format="2D",
             lang_type="lektor",

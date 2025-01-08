@@ -1,5 +1,5 @@
 // Ustaw czas sesji w sekundach (np. 5 minut)
-const sessionTime = 5 * 60; // 5 minut w sekundach
+const sessionTime = 15 * 60; // 5 minut w sekundach
 
 // Sprawdź, czy czas pozostały jest już zapisany w sessionStorage
 let timeLeft = sessionStorage.getItem('timeLeft') ? parseInt(sessionStorage.getItem('timeLeft')) : sessionTime;

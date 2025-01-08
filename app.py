@@ -27,8 +27,14 @@ def movie_details(movie_id=1):
         show_date = showing.show_time.date()
         grouped_showings[show_date].append(showing)
     # Przekazanie zgrupowanych seansów do szablonu
-    return render_template('movie.html', movie=movie, showings=showings, grouped_showings=grouped_showings, current_date=datetime.now().date())
-    
+    return render_template(
+        "movie.html",
+        movie=movie,
+        showings=showings,
+        grouped_showings=grouped_showings,
+        current_date=datetime.now().date(),
+    )
+
     # return render_template("movie.html", movie=movie, showings=showings)
 
 
