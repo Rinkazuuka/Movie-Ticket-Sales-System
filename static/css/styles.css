@@ -42,12 +42,6 @@ a {
 }
 
 
-
-#lower-footer {
-    background-color: #673B8D;
-    color: white;
-}
-
 .showing-card:hover {
     border-color: #673B8D;
     background-color: #e1ccf3;
@@ -65,8 +59,9 @@ body {
 }
 
 footer {
-    background-color: lightgray;
+    color: white;
 }
+
 
 .button-container {
     margin-top: auto; 

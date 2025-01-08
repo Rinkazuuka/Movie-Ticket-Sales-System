@@ -7,14 +7,11 @@
 <body>
     <nav class="navbar">
         <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center justify-content-center" href="/">
-                <img src="../static/images/logo.png" height="40" width="40" class="d-inline-block align-text-top me-2">
-                <span class="fw-bold text-uppercase">Popkino</span>
-            </a> 
+            {% include 'logo.html' %}
         </div>
     </nav>
 
-    <div class="container" style="flex: 1">
+    <div class="container px-0" style="flex: 1">
         {% block content %}{% endblock %}
     </div>
 
