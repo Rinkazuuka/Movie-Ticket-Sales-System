@@ -5,8 +5,8 @@
 {% block content %}
 
 <div id="movie-basics" class="container mt-5 mb-5">
-    <div class="row gap-5">
-        <div class="col-4" id="movie-image-container">
+    <div class="row gap-4">
+        <div class="col-4" id="movie-image-container" >
             <img id="movie-image" src={{movie.image_url}} class="image-fluid w-100">
         </div>
         <div class="col">
@@ -40,8 +40,8 @@
         </h3>
         <div class="d-flex flex-wrap gap-3 mb-4">
             {% for showing in shows %}
-            <div class="card p-1 showing-card" style="width: 200px;">
-                <a href='/showing/{{showing.showing_id}}' class="card-body">
+            <div class="card p-1 showing-card" style="width: 150px;">
+                <a href='/showing/{{showing.showing_id}}' target="_blank" class="card-body">
                     <h5 class="card-title"> {{ showing.show_time.strftime('%H:%M') }} </h5>
                     <div class="d-flex gap-2">
                         <p class="p card-text m-0"> {{ showing.movie_format }}</p>

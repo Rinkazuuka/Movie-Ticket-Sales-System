@@ -42,6 +42,7 @@ a {
 }
 
 
+
 .showing-card:hover {
     border-color: #673B8D;
     background-color: #e1ccf3;
@@ -100,6 +101,9 @@ footer {
 
     }
 
+    #movie-image {
+        height: 30vh;
+    }
 
     footer .row {
         text-align: center; 
@@ -114,6 +118,13 @@ footer {
     footer .nav {
         justify-content: center;
     }
+ }
+
+ @media (max-width: 992px) { 
+    #movie-image {
+        height: auto;
+    }
+
  }
 
 
