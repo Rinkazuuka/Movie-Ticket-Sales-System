@@ -3,21 +3,21 @@
 {% block title %}Strona Główna{% endblock %}
 
 {% block content %}
-<div id="hero">
-    <h1>Najlepsze filmy w najlepszej cenie</h1>
+<div id="hero" class="container mb-5 mt-5">
+    <h1>Teraz gramy</h1>
 </div>
 <div id="our-movies">
     {% if movies %}
-        <div class="row gap-4">
+        <div class="row gy-5">
             {% for movie in movies %}
                 <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                    <img src="{{ movie.image_url }}" alt="Poster filmu {{ movie.title }}" class="image-fluid w-100">
-                    <a href="/movie/{{ movie.movie_id }}">{{ movie.title }}</a>
+                    <a href="/movie/{{ movie.movie_id }}"><img src="{{ movie.image_url }}" alt="Poster filmu {{ movie.title }}" class="image-fluid w-100" style="height: 300px; overflow: hidden;"></a>
+                    <h2><a href="/movie/{{ movie.movie_id }}" style="color:black; font-size: 20px;">{{ movie.title }}</a></h2>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p>Brak dostępnych filmów w bazie danych.</p>
+        <p>Brak filmów w kinie sorka :c</p>
     {% endif %}
 </div>
 {% endblock %}
