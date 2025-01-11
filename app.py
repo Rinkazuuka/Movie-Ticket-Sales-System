@@ -17,6 +17,10 @@ def show_movies():
     movies = Movie.query.all()  # Pobierz wszystkie filmy
     return render_template("index.html", movies=movies)
 
+@app.route("/test")
+def test(): 
+    return "Hello, Welcome to GeeksForGeeks"
+
 
 @app.route("/movie/<int:movie_id>")
 def movie_details(movie_id):
