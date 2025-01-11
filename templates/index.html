@@ -3,4 +3,21 @@
 {% block title %}Strona Główna{% endblock %}
 
 {% block content %}
+<div id="hero">
+    <h1>Najlepsze filmy w najlepszej cenie</h1>
+</div>
+<div id="our-movies">
+    {% if movies %}
+        <div class="row gap-4">
+            {% for movie in movies %}
+                <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+                    <img src="{{ movie.image_url }}" alt="Poster filmu {{ movie.title }}" class="image-fluid w-100">
+                    <a href="/movie/{{ movie.movie_id }}">{{ movie.title }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Brak dostępnych filmów w bazie danych.</p>
+    {% endif %}
+</div>
 {% endblock %}
