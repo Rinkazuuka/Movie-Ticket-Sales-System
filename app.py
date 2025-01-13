@@ -47,7 +47,17 @@ def movie_details(movie_id):
 @app.route("/showing/<showing_id>")
 def showing(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
+
+    if showing is None:
+        abort(404)  
+        
     return render_template("showing.html", showing=showing)
+
+
+@app.route("/showing/<showing_id>/personal")
+def personal(showing_id):
+    showing = Showing.query.filter_by(showing_id=showing_id).first()
+    return render_template("personal.html", showing=showing)
 
 
 @app.errorhandler(404)

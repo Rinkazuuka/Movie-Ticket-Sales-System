@@ -17,17 +17,19 @@
     <div class="container mb-3">
         <div class="d-flex gap-3">
             <img src="{{ showing.movie.image_url }}" height="128px">
-            <div>
+            <div class="">
                 <h1 class="h1 text-uppercase fw-bold">{{ showing.movie.title }}</h1>
-                <div class="d-flex gap-2">
-                    <p>{{ showing.show_time.strftime('%d-%m-%Y') }}</p>
-                    <p>|</p>
-                    <p>{{ showing.show_time.strftime('%H:%M') }}</p>
-                </div>
-                <div class="d-flex gap-2">
-                    <p>{{ showing.movie_format }}</p>
-                    <p>|</p>
-                    <p>{{ showing.lang_type }}</p>
+                <div class="gap-2 d-flex flex-column">
+                    <div class="d-flex gap-2">
+                        <p class="p m-0">{{ showing.show_time.strftime('%d-%m-%Y') }}</p>
+                        <p class="p m-0">|</p>
+                        <p class="p m-0">{{ showing.show_time.strftime('%H:%M') }}</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <p class="p m-0">{{ showing.movie_format }}</p>
+                        <p class="p m-0">|</p>
+                        <p class="p m-0">{{ showing.lang_type }}</p>
+                    </div>
                 </div>
             </div>
         </div>
