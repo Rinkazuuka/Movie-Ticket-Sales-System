@@ -16,7 +16,7 @@ function updateTimer() {
     // Sprawdź, czy czas się skończył
     if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        alert("Sesja wygasła. Zostaniesz wylogowany.");
+        alert("Sesja wygasła. Zostaniesz przekierowany do strony głównej.");
         // Usuń pozostały czas z sessionStorage
         sessionStorage.removeItem('timeLeft');
         // Możesz dodać kod do przekierowania
@@ -26,6 +26,10 @@ function updateTimer() {
         // Zapisz pozostały czas w sessionStorage
         sessionStorage.setItem('timeLeft', timeLeft);
     }
+}
+
+function resetTimer() {
+    sessionStorage.removeItem('timeLeft');
 }
 
 // Rozpocznij odliczanie
