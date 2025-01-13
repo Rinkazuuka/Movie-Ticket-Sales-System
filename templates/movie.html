@@ -1,0 +1,60 @@
+{% extends "base_website.html" %}
+
+{% block title %}Szczegóły Filmu{% endblock %}
+
+{% block content %}
+
+<div id="movie-basics" class="container mt-5 mb-5">
+    <div class="row gap-4">
+        <div class="col-4" id="movie-image-container" >
+            <img id="movie-image" src={{movie.image_url}} class="image-fluid w-100">
+        </div>
+        <div class="col">
+            <h1 class="h1 fw-bold text-uppercase pb-2">
+                {{ movie.title }}
+            </h1>
+            <p class="p pb-2">
+                {{ movie.description }}
+            </p>
+            <div class="d-flex flex-wrap gap-5 pb-2">
+                <div class="d-flex flex-column" width="200px">
+                    <p class=" fw-bold mb-1">Czas trwania</p>
+                    <p class="p"> {{ movie.duration }} minut</p>
+                </div>
+                <div class="d-flex flex-column" width="200px">
+                    <p class=" fw-bold mb-1">Data premiery</p>
+                    <p class="p"> {{ movie.release_date }} </p>
+                </div>
+
+            </div>
+            <a href="#seanse"><button id="Kup_bilet" class="btn btn-primary rounded-3 px-4">Kup bilet</button></a>
+        </div>
+    </div>
+    <div class="mt-5">
+        <h2 class="h2 mb-4 text-uppercase fw-bold" id="seanse">
+            Najbliższe seanse
+        </h2>
+        {% for date, shows in grouped_showings.items() %}
+        <h3 class="h3">
+            {{ 'Dzisiaj' if date == current_date else date.strftime('%d.%m.%Y') }}
+        </h3>
+        <div class="d-flex flex-wrap gap-3 mb-4">
+            {% for showing in shows %}
+            <div class="card p-1 showing-card" style="width: 150px;">
+                <a href='/showing/{{showing.showing_id}}' target="_blank" class="card-body">
+                    <h5 class="card-title"> {{ showing.show_time.strftime('%H:%M') }} </h5>
+                    <div class="d-flex gap-2">
+                        <p class="p card-text m-0"> {{ showing.movie_format }}</p>
+                        <p class="p card-text m-0"> {{ showing.lang_type }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+</div>
+
+{% endblock %}

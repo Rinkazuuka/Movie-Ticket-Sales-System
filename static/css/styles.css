@@ -1,0 +1,137 @@
+
+
+img {
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+.h1{
+    font-size: xx-large;
+}
+
+.h2 {
+    font-size: x-large;
+}
+
+.h3 { 
+    font-size: large;
+}
+
+.p {
+    color: #4B4747;
+}
+
+.btn-primary {
+    background-color: #673B8D;
+    border-color: #673B8D;
+}
+
+.btn-primary:hover {
+    background-color: #734494; 
+    border-color: #734494; 
+}
+
+
+.btn-outline-secondary {
+    color: black;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+
+
+.showing-card:hover {
+    border-color: #673B8D;
+    background-color: #e1ccf3;
+}
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    color: white;
+}
+
+
+.button-container {
+    margin-top: auto; 
+}
+
+
+@media (max-width: 576px) { 
+    .showing-card {
+        width: 100% !important;
+    }
+
+    #Kup_bilet {
+        width: 100% !important;
+    }
+
+    #movie-basics {
+        margin-top: 0px !important;
+    }
+
+    footer {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #movie-image-container {
+        width: 100% !important; 
+        height: 50% !important; 
+    }
+
+    .button-container button {
+        width: 100% !important;
+    }
+
+    .inner-button-container {
+        flex-direction: column !important;
+
+    }
+
+    #movie-image {
+        height: 30vh;
+    }
+
+    footer .row {
+        text-align: center; 
+    }
+
+    footer .col {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+    }
+    
+    footer .nav {
+        justify-content: center;
+    }
+ }
+
+ @media (max-width: 992px) { 
+    #movie-image {
+        height: auto;
+    }
+
+ }
+
+
+/*@media (min-width: 768px) { ... }
+
+@media (min-width: 992px) { ... }
+
+@media (min-width: 1200px) { ... }
+
+@media (min-width: 1400px) { ... } */
