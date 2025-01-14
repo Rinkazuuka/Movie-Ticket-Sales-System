@@ -14,8 +14,9 @@ db.init_app(app)
 
 @app.route("/")
 def show_movies():
-    movies = Movie.query.all()  # Pobierz wszystkie filmy
-    return render_template("index.html", movies=movies)
+     movies = Movie.query.all()  # Pobierz wszystkie filmy
+     return render_template("index.html", movies=movies)
+
 
 
 @app.route("/movie/<int:movie_id>")
@@ -58,6 +59,11 @@ def showing(showing_id):
 def personal(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
     return render_template("personal.html", showing=showing)
+
+@app.route("/showing/<showing_id>/personal/payment")
+def payment(showing_id):
+    showing = Showing.query.filter_by(showing_id=showing_id).first()
+    return render_template("payment.html", showing=showing)
 
 
 @app.errorhandler(404)
