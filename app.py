@@ -2,7 +2,7 @@ from flask import Flask, render_template, abort
 from database import db, Movie, Showing
 from datetime import date, datetime
 from collections import defaultdict
-
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
@@ -11,6 +11,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
+app.secret_key = "your_secret_key"  # Ustaw silny klucz sesji
 
 @app.route("/")
 def show_movies():
@@ -54,16 +55,24 @@ def showing(showing_id):
         
     return render_template("showing.html", showing=showing)
 
-
 @app.route("/showing/<showing_id>/personal")
 def personal(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
     return render_template("personal.html", showing=showing)
 
-@app.route("/showing/<showing_id>/personal/payment")
+@app.route("/showing/<showing_id>/personal/payment", methods=["GET", "POST"])
 def payment(showing_id):
+    if request.method == "POST":
+        username = request.form.get("user-name")
+        email = request.form.get("user-email")
+        session["username"] = username
+        session["email"] = email
+        return redirect(url_for("payment", showing_id=showing_id))
+    # Obsługa GET
     showing = Showing.query.filter_by(showing_id=showing_id).first()
-    return render_template("payment.html", showing=showing)
+    username = session.get("username", "N/A")
+    email = session.get("email", "N/A")
+    return render_template("payment.html", showing=showing, username=username, email=email)
 
 
 @app.errorhandler(404)
