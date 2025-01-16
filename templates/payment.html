@@ -7,7 +7,84 @@
     <div class="row">
         <div class="col border p-4">
             <h2>Podsumowanie</h2>
-            <div class=""
+            <div class="container-fluid p-0 m-0">
+
+              <div class="row justify-content-between">
+                <div class="col-4">
+                  <p>Imię i nazwisko</p>
+                </div>
+                <div class="col-4">
+                  <p>aaaa</p>
+                </div>
+              </div>
+
+              <div class="row justify-content-between">
+                <div class="col-4">
+                  <p>Email:</p>
+                </div>
+                <div class="col-4">
+                  <p>bbb</p>
+                </div>
+              </div>
+
+              <div class="row justify-content-between mb-4">
+                <div class="col-4">
+                  <p>Kupon rabatowy</p>
+                </div>
+                <div class="col-4">
+                  <form>
+                    <div class="form">
+                      <input type="text" class="form-control" id="discount-code" aria-describedby="Discount" placeholder="Kod rabatowy">
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+
+              <div class="container p-2 rounded bg-light">
+
+                <div class="row justify-content-between">
+                  <div class="col-4">
+                    aaa
+                  </div>
+                  <div class="col-4">
+                    <p>x bilet normalny</p>
+                  </div>
+                </div>
+
+                <div class="row justify-content-between">
+                  <div class="col-4">
+                    bbb
+                  </div>
+                  <div class="col-4">
+                    <p>x bilet ulgowy</p>
+                  </div>
+                </div>
+
+                <hr> 
+
+                <div class="row justify-content-between">
+                  <div class="col-4">
+                    <h5>Do zapłaty</h5>
+                  </div>
+                  <div class="col-4">
+                    <h5>40 zł</h5>
+                  </div>
+                </div>
+
+                <div class="row justify-content-between">
+                  <div class="col-4">
+                    <p>Rabat</p>
+                  </div>
+                  <div class="col-4">
+                    <p>-0 zł</p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
             <div id="orderSummary" class="text-center mt-3">
                 <!-- JAVASCRIPT -->
             </div>
@@ -16,20 +93,20 @@
 
         <div class="col border p-4">
                 <h2>Metoda płatności</h2>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentBLIK" id="paymentBLIK" checked>
+                    <div class="form-check mb-3 mt-3">
+                        <input class="form-check-input" type="radio" name="paymentOption" id="paymentBLIK" checked>
                         <label class="form-check-label" for="paymentBLIK">
                           BLIK
                         </label>
                       </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentInCinema" id="paymentInCinema">
+                      <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="paymentOption" id="paymentInCinema">
                         <label class="form-check-label" for="paymentInCinema">
                           Płatność na miejscu
                         </label>
                       </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentbyCard" id="paymentbyCard">
+                      <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="paymentOption" id="paymentbyCard">
                         <label class="form-check-label" for="paymentbyCard">
                           Płatność kartą
                         </label>
