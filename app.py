@@ -2,6 +2,7 @@ from flask import Flask, render_template, abort
 from database import db, Movie, Showing
 from datetime import date, datetime
 from collections import defaultdict
+from flask import jsonify
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
@@ -74,6 +75,11 @@ def payment(showing_id):
     email = session.get("email", "N/A")
     return render_template("payment.html", showing=showing, username=username, email=email)
 
+@app.route("/showing/<showing_id>/personal/payment/summary")
+def summary(showing_id):
+    showing = Showing.query.filter_by(showing_id=showing_id).first()
+    return render_template("summary.html", showing=showing)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -85,3 +91,4 @@ with app.app_context():
 
 if __name__ == "__main__":
     app.run(debug=True)
+

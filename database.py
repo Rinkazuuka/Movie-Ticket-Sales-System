@@ -72,11 +72,11 @@ class Reservation(db.Model):
 #     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 #     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-# class Coupon(db.Model):
-#     __tablename__ = 'coupons'
+class Coupon(db.Model):
+    __tablename__ = 'coupons'
 
-#     coupon_id = db.Column(db.Integer, primary_key=True)
-#     coupon_code = db.Column(db.String(50), unique=True, nullable=False)
-#     discount_value = db.Column(db.Float, nullable=False)
-#     expiration_date = db.Column(db.Date, nullable=False)
-#     status = db.Column(db.String(20), nullable=False)  # "aktywny", "nieaktywny"
+    coupon_id = db.Column(db.Integer, primary_key=True)
+    coupon_code = db.Column(db.String(50), unique=True, nullable=False)
+    discount_value = db.Column(db.Float, nullable=False)
+    expiration_date = db.Column(db.Date, nullable=False)
+    status = db.Column(db.String(20), nullable=False)  # "aktywny", "nieaktywny"

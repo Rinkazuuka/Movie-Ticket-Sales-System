@@ -28,15 +28,18 @@
               </div>
 
               <div class="row justify-content-between mb-4">
-                <div class="col-4">
+                <div class="col">
                   <p>Kupon rabatowy</p>
                 </div>
-                <div class="col-4">
-                  <form>
-                    <div class="form">
-                      <input type="text" class="form-control" id="discount-code" aria-describedby="Discount" placeholder="Kod rabatowy">
-                    </div>
+                <div class="col">
+
+                  <form class="form-inline">
+                      <div class="form-group">
+                        <input type="text" class="form-control mb-2" id="user-discount-code"name="user-discount-code" placeholder="Kod rabatowy">
+                        <button type="submit" id="check-coupon" class="btn btn-primary rounded-3 px-4">Test</button>
+                      </div>
                   </form>
+
                 </div>
               </div>
 
@@ -121,6 +124,9 @@
         </div>
     </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
 
 
 {% endblock %}
