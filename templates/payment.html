@@ -33,7 +33,7 @@
                 </div>
                 <div class="col">
 
-                  <form class="form-inline">
+                  <form class="form-inline" id="coupon-form">
                       <div class="form-group">
                         <input type="text" class="form-control mb-2" id="discount-code"name="user-discount-code" placeholder="Kod rabatowy">
                         <button type="submit" id="check-coupon" class="btn btn-primary rounded-3 px-4">Test</button>
@@ -71,7 +71,7 @@
                     <h5>Do zapłaty</h5>
                   </div>
                   <div class="col-4">
-                    <h5>40 zł</h5>
+                    <h5 id="order-price">40 zł</h5>
                   </div>
                 </div>
 
@@ -80,7 +80,7 @@
                     <p>Rabat</p>
                   </div>
                   <div class="col-4">
-                    <p>-0 zł</p>
+                    <p id="discount-value">Brak rabatu</p>
                   </div>
                 </div>
 
@@ -126,7 +126,9 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/coupon.js') }}"></script>
 
 {% endblock %}

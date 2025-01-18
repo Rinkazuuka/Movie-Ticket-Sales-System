@@ -1,4 +1,4 @@
-from database import db, Movie, Showing, Coupon, User
+from database import db, Movie, Showing, Coupon, User, Reservation
 from datetime import datetime, date
 from app import app
 
@@ -182,7 +182,7 @@ def seed_db():
         
         Coupon(
             coupon_id=1,
-            coupon_code=0000,
+            coupon_code=1111,
             discount_value=10,
             expiration_date=datetime(2028,2,3,18,00),
             status="aktywny",
@@ -203,6 +203,29 @@ def seed_db():
 
     for user in users:
         db.session.add(user)
+
+
+
+
+
+    reservations = [
+        
+        Reservation(
+        reservation_id = 1,
+        ticket_code = "000",
+        showing_id = 1,
+        number_of_tickets = 2,
+        status = "ważny",
+        username = "Test user",
+        email = "testmail@email.com",
+        )
+    ]
+
+    for reservation in reservations:
+        db.session.add(reservation)
+
+
+
 
 
     db.session.commit()
