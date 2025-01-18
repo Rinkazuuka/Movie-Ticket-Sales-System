@@ -89,7 +89,6 @@ def summary(showing_id):
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
     ticketnumber = session.get("ticket_number", "Nie ma biletu")
-    showing = Showing.query.filter_by(showing_id=showing_id).first()
 
     # Dodaj rezerwację do bazy danych
     new_reservation = Reservation(
@@ -129,14 +128,14 @@ def admin_view():
         username = request.form.get("admin-user-name")
         password = request.form.get("admin-password")
         
-        # Sprawdzanie poprawności użytkownika w bazie danych
+        # czy usera mamy w bazie
         admin_user = User.query.filter_by(username=username, password=password).first()
         
         if admin_user:
-            # Przekierowanie do strony tickets.html po poprawnym logowaniu
+            # zalogowany
             return redirect(url_for("check_tickets"))
         else:
-            # W przypadku nieprawidłowego loginu/hasła
+            # Złe dane
             error_message = "Nieprawidłowy login lub hasło. Spróbuj ponownie."
             return render_template("admin.html", error=error_message)
     
@@ -147,11 +146,24 @@ def check_tickets():
     if request.method == "POST":
         ticket_code = request.form.get("client-ticket-code")
 
-        correct_ticket = Reservation.query.filter_by(ticket_code=ticket_code).first()
+        correct_ticket = Reservation.query.filter_by(ticket_code=ticket_code, status = "ważny").first()
 
         if correct_ticket:
+            # seans
+            showing = Showing.query.filter_by(showing_id=correct_ticket.showing_id).first()
+            # jaki film
+            movie = Movie.query.filter_by(movie_id=showing.movie_id).first()
+            if movie is None:
+                error_message = "Nie znaleziono filmu powiązanego z biletem."
+                return render_template("tickets.html", error=error_message)
+
             success_message = "Ten bilet jest prawidłowy"
-            return render_template("tickets.html", success = success_message)
+            return render_template(
+                "tickets.html",
+                success = success_message,
+                reservation=correct_ticket,
+                showing=showing,
+                movie=movie)
         
         else:
             error_message = "Nieprawidłowy bilet"

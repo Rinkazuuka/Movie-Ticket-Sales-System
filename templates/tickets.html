@@ -8,18 +8,6 @@
 
     <form method="POST">
 
-        {% if error %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-        {% endif %}
-
-        {% if success %}
-        <div class="alert alert-success" role="alert">
-            {{ success }}
-        </div>
-        {% endif %}
-
         <p>Wpisz kod biletu</p>
         <div class="form-group mb-3">
             <label for="client-ticket-code">Bilet</label>
@@ -29,6 +17,27 @@
         <button type="submit" id="login" class="btn btn-primary rounded-3 px-4">Sprawdź</button>
 
     </form>
+
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if success %}
+        <div class="alert alert-success" role="alert">
+            {{ success }}
+        </div>
+
+        <div class = "conatiner">
+            <li><strong>Imię i nazwisko klienta</strong> {{ reservation.username }}</li>
+            <li><strong>Email</strong> {{ reservation.email }} </li>
+            <li><strong>Tytuł filmu:</strong> {{ movie.title }}</li>
+            <li><strong>Data i godzina seansu:</strong> {{ showing.show_time }}</li>
+        </div>
+
+        {% endif %}
+
 </div>
 
 {% endblock %}
