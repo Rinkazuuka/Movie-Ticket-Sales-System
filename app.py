@@ -1,8 +1,7 @@
 from flask import Flask, render_template, abort
-from database import db, Movie, Showing, Reservation
+from database import db, Movie, Showing, Reservation, User
 from datetime import date, datetime
 from collections import defaultdict
-from flask import jsonify
 from flask import Flask, render_template, request, redirect, url_for, session
 import uuid
 
@@ -71,9 +70,10 @@ def payment(showing_id):
         email = request.form.get("user-email")
         session["username"] = username
         session["email"] = email
-        # Generowanie unikalnego numeru biletu
-        #session["ticket_number"] = str(uuid.uuid4())[:8]
-        session["ticket_number"] = 1
+
+        # Generowanie biletu
+        session["ticket_number"] = str(uuid.uuid4())[:8]
+
         return redirect(url_for("payment", showing_id=showing_id))
     # Obsługa GET
     showing = Showing.query.filter_by(showing_id=showing_id).first()
@@ -88,16 +88,17 @@ def summary(showing_id):
 
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
-    ticket_number = session.get("ticket_number", "Nie ma biletu")
+    ticketnumber = session.get("ticket_number", "Nie ma biletu")
     showing = Showing.query.filter_by(showing_id=showing_id).first()
 
     # Dodaj rezerwację do bazy danych
     new_reservation = Reservation(
         showing_id=showing_id,
+        ticket_code = ticketnumber,
         number_of_tickets=14,  # Możesz to dostosować w zależności od formularza
         username= username,
         email= email,
-        status="zrealizowana"  # Ustaw status na zrealizowana (lub inny)
+        status="ważny"
     )
     db.session.add(new_reservation)
     db.session.commit()
@@ -112,26 +113,51 @@ def summary(showing_id):
     )
 
 
-"""@app.route("/showing/<showing_id>/personal/payment", methods=["GET", "POST"])
-def payment(showing_id):
-    
+# Sprawdzanie biletów
+"""@app.route("/admin", methods=["GET", "POST"])
+def admin_view():
     if request.method == "POST":
-        username = request.form.get("user-name")
-        email = request.form.get("user-email")
-        session["username"] = username
-        session["email"] = email
-        return redirect(url_for("payment", showing_id=showing_id))
-    # Obsługa GET
-    showing = Showing.query.filter_by(showing_id=showing_id).first()
-    username = session.get("username", "N/A")
-    email = session.get("email", "N/A")
-    return render_template("payment.html", showing=showing, username=username, email=email)"""
+        return render_template("admin.html")
+    
+    return render_template(
+        "admin.html"
+    )
+"""
+@app.route("/admin", methods=["GET", "POST"])
+def admin_view():
+    if request.method == "POST":
+        username = request.form.get("admin-user-name")
+        password = request.form.get("admin-password")
+        
+        # Sprawdzanie poprawności użytkownika w bazie danych
+        admin_user = User.query.filter_by(username=username, password=password).first()
+        
+        if admin_user:
+            # Przekierowanie do strony tickets.html po poprawnym logowaniu
+            return redirect(url_for("check_tickets"))
+        else:
+            # W przypadku nieprawidłowego loginu/hasła
+            error_message = "Nieprawidłowy login lub hasło. Spróbuj ponownie."
+            return render_template("admin.html", error=error_message)
+    
+    return render_template("admin.html")
 
-"""@app.route("/showing/<showing_id>/personal/payment/summary")
-def summary(showing_id):
-    showing = Showing.query.filter_by(showing_id=showing_id).first()
-    return render_template("summary.html", showing=showing)"""
+@app.route("/admin/bilety", methods=["GET", "POST"])
+def check_tickets():
+    if request.method == "POST":
+        ticket_code = request.form.get("client-ticket-code")
 
+        correct_ticket = Reservation.query.filter_by(ticket_code=ticket_code).first()
+
+        if correct_ticket:
+            success_message = "Ten bilet jest prawidłowy"
+            return render_template("tickets.html", success = success_message)
+        
+        else:
+            error_message = "Nieprawidłowy bilet"
+            return render_template("tickets.html", error=error_message)
+    
+    return render_template("tickets.html")
 
 @app.errorhandler(404)
 def page_not_found(e):

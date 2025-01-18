@@ -3,14 +3,12 @@
 {% block title %}Strona Główna{% endblock %}
 
 {% block content %}
-<div id="container">
+<div class="container">
     <h2>Udało się kupić bilet! 🍿</h2>
-    <li><strong>Imię i nazwisko:</strong> {{ reservation.username }}</li>
-    <li><strong>Email:</strong> {{ reservation.email }}</li>
+    <p>Zapisz swój kod biletu lub pobierz pdf, który pokażesz w kinie.</p>
     <li><strong>Tytuł filmu:</strong> {{ showing.movie.title }}</li>
     <li><strong>Data i godzina pokazu:</strong> {{ showing.show_time }}</li>
-    <li><strong>ID rezerwacji:</strong> {{ reservation.reservation_id }}</li>
-    <li><strong>Status rezerwacji:</strong> {{ reservation.status }}</li>
+    <li><strong>Kod biletu</strong> {{ reservation.ticket_code }}</li>
 </div>
 
 {% endblock %}

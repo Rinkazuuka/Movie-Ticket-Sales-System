@@ -1,4 +1,4 @@
-from database import db, Movie, Showing, Coupon
+from database import db, Movie, Showing, Coupon, User
 from datetime import datetime, date
 from app import app
 
@@ -192,8 +192,21 @@ def seed_db():
     for coupon in coupons:
         db.session.add(coupon)
 
+    
+    users = [
+        
+        User(
+            username = "admin",
+            password = "admin",
+        )
+    ]
+
+    for user in users:
+        db.session.add(user)
+
 
     db.session.commit()
+    
 
 
 with app.app_context():
