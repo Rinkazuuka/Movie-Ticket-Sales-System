@@ -4,7 +4,13 @@
 
 {% block content %}
 <div id="container">
-    Udało ci sie kupić bilet! 🍿
+    <h2>Udało się kupić bilet! 🍿</h2>
+    <li><strong>Imię i nazwisko:</strong> {{ reservation.username }}</li>
+    <li><strong>Email:</strong> {{ reservation.email }}</li>
+    <li><strong>Tytuł filmu:</strong> {{ showing.movie.title }}</li>
+    <li><strong>Data i godzina pokazu:</strong> {{ showing.show_time }}</li>
+    <li><strong>ID rezerwacji:</strong> {{ reservation.reservation_id }}</li>
+    <li><strong>Status rezerwacji:</strong> {{ reservation.status }}</li>
 </div>
 
 {% endblock %}
