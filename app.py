@@ -1,9 +1,13 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, flash, redirect, url_for
 from database import db, Movie, Showing, Reservation, User
 from datetime import date, datetime
 from collections import defaultdict
 from flask import Flask, render_template, request, redirect, url_for, session
 import uuid
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, EmailField
+from wtforms.validators import DataRequired, Email
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
@@ -14,11 +18,17 @@ db.init_app(app)
 
 app.secret_key = "your_secret_key"  # Ustaw silny klucz sesji
 
+# Formularz
+class UserInfoForm(FlaskForm):
+    name = StringField('Imię i nazwisko', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Wyślij')
+    
+
 @app.route("/")
 def show_movies():
      movies = Movie.query.all()  # Pobierz wszystkie filmy
      return render_template("index.html", movies=movies)
-
 
 
 @app.route("/movie/<int:movie_id>")

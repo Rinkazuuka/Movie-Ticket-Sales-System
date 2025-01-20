@@ -4,11 +4,11 @@
 {% include 'head.html' %}
 
 <body>
-    <nav class="navbar mb-5">
+    <nav class="navbar mb-4">
         <div class="container-fluid">
             {% include 'logo.html' %}
             <div class="d-flex gap-2 align-items-center justify-content-center">
-                <img src="../static/images/time-left.png" height="20px" width="20px">
+                <img src="/static/images/time-left.png" height="20px" width="20px">
                 <div id="timer" class="p">Zostało do końca rezerwacji <span id="countdown"></span></div>
             </div>
         </div>
@@ -36,15 +36,8 @@
 
     </div>
 
-    <div class="container">
+    <div class="container flex-column flex ">
         {% block content %}{% endblock %}
-    </div>
-
-    <div class="container button-container mb-5">
-        <div class="d-flex flex-row justify-content-between inner-button-container gap-2">
-            <button id="Wstecz" class="btn btn-outline-secondary rounded-3 px-4">Wstecz</button>
-            <button id="Przejdz_dalej" class="btn btn-primary rounded-3 px-4">Przejdź dalej</button>
-        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
