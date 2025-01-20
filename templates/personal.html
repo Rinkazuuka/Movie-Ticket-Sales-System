@@ -1,0 +1,36 @@
+{% extends "base_reservation.html" %}
+
+{% block title %}Rezerwacja Pokazu{% endblock %}
+
+{% block content %}
+
+<div class="container h-auto">
+    <div class="row gap-4">
+        <div class="col border rounded-3 p-4">
+
+
+
+        </div>
+        <div class="col border rounded-3 p-4">
+            <h2 class="h2">Dane</h2>
+            <form id="paymentForm">
+                <div class="mb-3">
+                    <label>Imię i nazwisko</label>
+                    <input type="text" class="form-control" placeholder="Imię i nazwisko">
+                </div>
+                <div class="mb-3">
+                    <label>E-mail</label>
+                    <input type="email" class="form-control" placeholder="E-mail">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Akceptuję warunki regulaminu
+                    </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
