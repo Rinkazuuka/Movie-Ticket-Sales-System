@@ -11,7 +11,14 @@ Główne funkcje naszej aplikacji, zawartość:
 ### 1. Zainstaluj potrzebne biblioteki z pliku *requirements.txt*
 Użyj komendy `pip3 install -r requirements.txt`
 
-![image](https://github.com/user-attachments/assets/50f6e756-9c38-462f-bc69-a5e06fa7c58a)
+    Flask==2.2.5
+    Flask-sqlalchemy==3.1.1
+    Werkzeug==2.2.2
+    Flask-WTF
+    /kino-rezerwacje
+    email_validator
+    reportlab==4.0.0
+    
 
 ### 2. Stwórz wirtualne środowisko
 W terminalu utwórz środowisko za pomocą komendy `python3 -m venv .env`. Po stworzeniu wirtualnego środowiska aktywuj go komendą `.\.env\Scripts\activate`
@@ -27,7 +34,38 @@ Aby stworzyć bazę danych potrzebną do działania aplikacji oraz wypełnić j�
 Uruchom program za pomocą komendy `python -m flask run`
 
 ## Organizacja plików
-![image](https://github.com/user-attachments/assets/733f442f-6e11-4395-95fd-20ed71dd54b8)
+    │ 
+    ├── /instance                 # Szablony HTML
+    │   └── database              # Inicjalizacja aplikacji
+    │ 
+    ├── /static                   # Pliki statyczne (CSS, JS, obrazy)
+    │   ├── css/                  # Inicjalizacja aplikacji
+    │   ├── images/               # Modele bazy danych
+    │   └── js/                   # Szablony HTML
+    │       ├── base.html         # Szablon bazowy
+    │       ├── index.html        # Strona główna
+    │       ├── booking.html      # Strona rezerwacji
+    │       └── confirmation.html # Strona potwierdzenia
+    │ 
+    ├── /templates                # Szablony HTML
+    │   ├── 404.html              # Inicjalizacja aplikacji
+    │   ├── admin.html            # Definicje tras (routes)
+    │   ├── base_reservation.html # Modele bazy danych
+    │   ├── base_website.html     # Inicjalizacja aplikacji
+    │   ├── footer.html           # Definicje tras (routes)
+    │   ├── head.html             # Modele bazy danych
+    │   ├── index.html            # Inicjalizacja aplikacji
+    │   ├── logo.html             # Definicje tras (routes)
+    │   ├── movie.html            # Modele bazy danych
+    │   ├── personal.html         # Modele bazy danych
+    │   ├── showing.html          # Inicjalizacja aplikacji
+    │   ├── summary.html          # Definicje tras (routes)
+    │   └── tickets.html          # Formularze
+    │
+    ├── .gitignore             
+    ├── database.py               # Skrypt do klas w bazie danych
+    ├── requirements.txt          # Wymagane biblioteki
+    └── seed.py                   # Skrypt do inicjalizacji bazy danych
 
 
 
@@ -44,18 +82,27 @@ Aplikacja udostępnia kilka punktów końcowych API, które umożliwiają intera
 * `/admin` - Logowanie do konta admina
 * `/admin/bilety`- Strona do weryfikacji biletów przez admina
 
-
-// dokumentację interfejsu API — szczegółowy opis endpointów, metod, parametrów żądań i odpowiedzi, jeśli aplikacja udostępnia API;
-
 ## Bazy danych
 Baza danych jest zbudowana przy użyciu SQL-Alchemy i zawiera następujące tabele:
-* movies
-* showings
-* reservations
-* user
-* coupons
+* `movies` - baza z dostępnymi filmami
+* `showings` - baza z dostępnymi seansami na filmy
+* `reservations` - baza z dokonanymi rezerwacjami na seanse
+* `user` - baza dla zarejestrowanych użytkowników
+* `coupons` - baza dostępnych kuponów rabatowych
 
-// opis schematów baz danych, relacji między nimi i tym podobnych;
+### Movies
+
+    movie_id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    duration = db.Column(db.Integer, nullable=False)  # Duration in minutes
+    release_date = db.Column(db.Date, nullable=False)
+    image_url = db.Column(db.String, nullable=True)
+    # direction= db.Column(db.String, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    showings = db.relationship("Showing", back_populates="movie")
+
 
 ## Podstawowa ścieżka przejścia aplikacji
 przewodniki dla końcowych użytkowników wyjaśniające działanie różnych funkcji i modułów aplikacji;
