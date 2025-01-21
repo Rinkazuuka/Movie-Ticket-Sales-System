@@ -2,9 +2,14 @@
 
 Celem naszego projektu było stworzenie aplikacji webowej, która umożliwia rezerwację biletów na seanse kinowe oraz zewnętrznego systemu do elektronicznej weryfikacji biletów. W realizacji tego zadania wykorzystaliśmy technologie takie jak HTML, CSS, biblioteka Bootstrap, JavaScript, Python, jQuery oraz Flask.
 
-Główne funkcje naszej aplikacji, zawartość:
-* cdc
-* ccfd
+Główne funkcje naszej aplikacji to:
+* rezerwacja miejsca na interaktywnej mapie kina
+* wybór rodzaju dodanych biletów
+* formularz do danych kontaktowych
+* dodawanie kuponu rabatowego
+* bilet elektroniczny w wersji PDF
+* weryfikacja ważności blietu przez admina
+* cadcedcwacsc
 
 
 ## Otwieranie projektu
@@ -143,8 +148,19 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
         password = db.Column(db.String, nullable=False)
 
 
-## Podstawowa ścieżka przejścia aplikacji
-przewodniki dla końcowych użytkowników wyjaśniające działanie różnych funkcji i modułów aplikacji;
+## Główne widoki w aplikacji
+co zawierają, jakie funkcji=onalności, opis i jakiś screen. Jeśli trzeba to jeszcze screeny funkcjonalności
+### Widok strony głównej
+
+### Widok filmu
+
+### Widok rezerwacji miejsc
+
+### Widok płatności
+
+### Widok weryfikacji
+
+### Strona 404
 
 
 ![image](https://github.com/user-attachments/assets/c0eed2a8-6806-43d5-b0c3-48c94753ee1c)
