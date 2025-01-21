@@ -35,37 +35,38 @@ Uruchom program za pomocą komendy `python -m flask run`
 
 ## Organizacja plików
     │ 
-    ├── /instance                 # Szablony HTML
-    │   └── database              # Inicjalizacja aplikacji
+    ├── /instance                     # Instancje baz danych
+    │   └── database                  # Baza danych
     │ 
-    ├── /static                   # Pliki statyczne (CSS, JS, obrazy)
-    │   ├── css/                  # Inicjalizacja aplikacji
-    │   ├── images/               # Modele bazy danych
-    │   └── js/                   # Szablony HTML
-    │       ├── base.html         # Szablon bazowy
-    │       ├── index.html        # Strona główna
-    │       ├── booking.html      # Strona rezerwacji
-    │       └── confirmation.html # Strona potwierdzenia
+    ├── /static                       # Pliki statyczne (CSS, JS, obrazy)
+    │   └── css/                      # Pliki css
+    │       └── styles.css            
+    │   ├── images/                   # Obrazy 
+    │   └── js/                       # Pliki js
+    │       ├── coupon.js             # Javascript do kupona rabatowego
+    │       ├── timer.js              # Javascript do licznika czasu
+    │       └── script.js             # Javascript do całego projektu
     │ 
-    ├── /templates                # Szablony HTML
-    │   ├── 404.html              # Inicjalizacja aplikacji
-    │   ├── admin.html            # Definicje tras (routes)
-    │   ├── base_reservation.html # Modele bazy danych
-    │   ├── base_website.html     # Inicjalizacja aplikacji
-    │   ├── footer.html           # Definicje tras (routes)
-    │   ├── head.html             # Modele bazy danych
-    │   ├── index.html            # Inicjalizacja aplikacji
-    │   ├── logo.html             # Definicje tras (routes)
-    │   ├── movie.html            # Modele bazy danych
-    │   ├── personal.html         # Modele bazy danych
-    │   ├── showing.html          # Inicjalizacja aplikacji
-    │   ├── summary.html          # Definicje tras (routes)
-    │   └── tickets.html          # Formularze
+    ├── /templates                    # Szablony HTML
+    │   ├── 404.html                  # Strona 404
+    │   ├── admin.html                # Strona logowania dla admina
+    │   ├── base_reservation.html     # Podstawowy szablon do widoku rezerwacji
+    │   ├── base_website.html         # Podstawowy szablon do widoku aplikacji
+    │   ├── footer.html               # Stopka
+    │   ├── head.html                 # Zagłówek stron
+    │   ├── index.html                # Strona główna
+    │   ├── logo.html                 # Logo
+    │   ├── movie.html                # Strona z opisem wybranego filmu
+    │   ├── personal.html             # Widok danych osobowych przy rezerwacji
+    │   ├── payment.html              # Widok płatności przy rezerwacji
+    │   ├── showing.html              # Widok wyboru miejsc i biletów
+    │   ├── summary.html              # Podsumowanie zakupu biletu
+    │   └── tickets.html              # Strona do sprawdzania biletów przez admina
     │
     ├── .gitignore             
-    ├── database.py               # Skrypt do klas w bazie danych
-    ├── requirements.txt          # Wymagane biblioteki
-    └── seed.py                   # Skrypt do inicjalizacji bazy danych
+    ├── database.py                   # Skrypt do klas w bazie danych
+    ├── requirements.txt              # Wymagane biblioteki
+    └── seed.py                       # Skrypt do inicjalizacji bazy danych
 
 
 
