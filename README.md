@@ -103,6 +103,45 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
     
         showings = db.relationship("Showing", back_populates="movie")    # Relacja z tabelą Showing
 
+### Showings
+Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
+
+    class Showing(db.Model):
+        __tablename__ = "showings"
+    
+        showing_id = db.Column(db.Integer, primary_key=True)
+        movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"), nullable=False)
+        # screen_id = db.Column(db.Integer, db.ForeignKey('screens.screen_id'), nullable=False)
+        movie_format = db.Column(db.String(10), nullable=False)  # 2D/3D
+        lang_type = db.Column(db.String(20), nullable=False)  # dubbing/napisy/lektor
+        show_time = db.Column(db.DateTime, nullable=False)
+        available_seats = db.Column(db.Integer, nullable=False)
+    
+        movie = db.relationship("Movie", back_populates="showings")
+
+### Reservations
+Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
+
+    class Reservation(db.Model):
+        __tablename__ = 'reservations'
+        
+        reservation_id = db.Column(db.Integer, primary_key=True)
+        ticket_code = db.Column(db.String, nullable=False)
+        showing_id = db.Column(db.Integer, db.ForeignKey('showings.showing_id'), nullable=False)
+        number_of_tickets = db.Column(db.Integer, nullable=False)
+        reservation_date = db.Column(db.DateTime, default=datetime.utcnow)
+        status = db.Column(db.String(20), nullable=False)  # "ważny", "nieważny"
+        created_at = db.Column(db.DateTime, default=datetime.utcnow)
+        username = db.Column(db.String(100), nullable=False)
+        email = db.Column(db.String(100), nullable=False)
+
+### User
+Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
+
+    class User(db.Model):
+        username = db.Column(db.String, primary_key=True)
+        password = db.Column(db.String, nullable=False)
+
 
 ## Podstawowa ścieżka przejścia aplikacji
 przewodniki dla końcowych użytkowników wyjaśniające działanie różnych funkcji i modułów aplikacji;
