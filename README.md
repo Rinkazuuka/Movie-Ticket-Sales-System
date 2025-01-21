@@ -88,17 +88,20 @@ Baza danych jest zbudowana przy użyciu SQL-Alchemy i zawiera następujące tabe
 * `coupons` - baza dostępnych kuponów rabatowych
 
 ### Movies
+Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
 
-    movie_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.Text, nullable=True)
-    duration = db.Column(db.Integer, nullable=False)  # Duration in minutes
-    release_date = db.Column(db.Date, nullable=False)
-    image_url = db.Column(db.String, nullable=True)
-    # direction= db.Column(db.String, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    showings = db.relationship("Showing", back_populates="movie")
+    class Movie(db.Model):
+        __tablename__ = "movies"
+        
+        movie_id = db.Column(db.Integer, primary_key=True)               # ID filmu
+        title = db.Column(db.String(255), nullable=False)                # Tytuł filmu
+        description = db.Column(db.Text, nullable=True)                  # Opis filmu 
+        duration = db.Column(db.Integer, nullable=False)                 # Czas trwania filmu
+        release_date = db.Column(db.Date, nullable=False)                # Data produkcji
+        image_url = db.Column(db.String, nullable=True)                  # URL do okładki filmu
+        created_at = db.Column(db.DateTime, default=datetime.utcnow)     # Data utworzenia
+    
+        showings = db.relationship("Showing", back_populates="movie")    # Relacja z tabelą Showing
 
 
 ## Podstawowa ścieżka przejścia aplikacji
