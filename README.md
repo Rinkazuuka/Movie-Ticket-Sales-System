@@ -8,7 +8,7 @@ Główne funkcje naszej aplikacji, zawartość:
 
 
 ## Otwieranie projektu
-### 1. Zainstaluj potrzebne biblioteki z pliku *requirements.txt*
+#### 1. Zainstaluj potrzebne biblioteki z pliku *requirements.txt*
 Użyj komendy `pip3 install -r requirements.txt`
 
     Flask==2.2.5
@@ -20,17 +20,13 @@ Użyj komendy `pip3 install -r requirements.txt`
     reportlab==4.0.0
     
 
-### 2. Stwórz wirtualne środowisko
+#### 2. Stwórz wirtualne środowisko
 W terminalu utwórz środowisko za pomocą komendy `python3 -m venv .env`. Po stworzeniu wirtualnego środowiska aktywuj go komendą `.\.env\Scripts\activate`
 
-![image](https://github.com/user-attachments/assets/7213a705-7315-413e-8b8d-0c3c96b16c87)
-
-### 3. Uruchom plik *seed.py*
+#### 3. Uruchom plik *seed.py*
 Aby stworzyć bazę danych potrzebną do działania aplikacji oraz wypełnić ją przykładowymi danymi, otwórz plik *seed.py* za pomocą komendy `python seed.py`
 
-![image](https://github.com/user-attachments/assets/0b121cc5-8b29-496d-8550-be4c78514153)
-
-### 4. Uruchom program
+#### 4. Uruchom program
 Uruchom program za pomocą komendy `python -m flask run`
 
 ## Organizacja plików
