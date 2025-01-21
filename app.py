@@ -1,12 +1,15 @@
 from flask import Flask, render_template, abort, flash, redirect, url_for
-from database import db, Movie, Showing, Reservation, User
+from database import db, Movie, Showing, Reservation, User,  Coupon
 from datetime import date, datetime
 from collections import defaultdict
 from flask import Flask, render_template, request, redirect, url_for, session
 import uuid
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, EmailField
-from wtforms.validators import DataRequired, Email
+from flask import jsonify
+
+# zapisywanie pdf
+from flask import Response, send_file
+from io import BytesIO
+from reportlab.pdfgen import canvas
 
 
 app = Flask(__name__)
@@ -18,12 +21,6 @@ db.init_app(app)
 
 app.secret_key = "your_secret_key"  # Ustaw silny klucz sesji
 
-# Formularz
-class UserInfoForm(FlaskForm):
-    name = StringField('Imię i nazwisko', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Wyślij')
-    
 
 @app.route("/")
 def show_movies():
@@ -81,15 +78,31 @@ def payment(showing_id):
         session["username"] = username
         session["email"] = email
 
-        # Generowanie biletu
+        # losuj unikalny bilet
         session["ticket_number"] = str(uuid.uuid4())[:8]
 
         return redirect(url_for("payment", showing_id=showing_id))
-    # Obsługa GET
+    
+    # GET
     showing = Showing.query.filter_by(showing_id=showing_id).first()
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
     return render_template("payment.html", showing=showing, username=username, email=email)
+
+
+@app.route("/check_coupon", methods=["POST"])
+def check_coupon():
+    coupon_code = request.form.get("coupon_code")
+    
+    # czy kupon jest w bazie
+    coupon = Coupon.query.filter_by(coupon_code=coupon_code, status="aktywny").first()
+    
+    if coupon:
+        # prawidłowy
+        return jsonify({"valid": True, "discount": coupon.discount_value})
+    else:
+        # nieprawidłowy
+        return jsonify({"valid": False, "discount": 0})
 
 
 @app.route("/showing/<showing_id>/personal/payment/summary")
@@ -100,11 +113,11 @@ def summary(showing_id):
     email = session.get("email", "N/A")
     ticketnumber = session.get("ticket_number", "Nie ma biletu")
 
-    # Dodaj rezerwację do bazy danych
+    # dodaj rezerwacje do bazy
     new_reservation = Reservation(
         showing_id=showing_id,
         ticket_code = ticketnumber,
-        number_of_tickets=14,  # Możesz to dostosować w zależności od formularza
+        number_of_tickets=14,  # wartosc in progress
         username= username,
         email= email,
         status="ważny"
@@ -122,16 +135,41 @@ def summary(showing_id):
     )
 
 
-# Sprawdzanie biletów
-"""@app.route("/admin", methods=["GET", "POST"])
-def admin_view():
-    if request.method == "POST":
-        return render_template("admin.html")
+# generowanie biletu pdf
+def generate_pdf_file(reservation, showing, movie):
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+
+    p.drawString(100, 750, "Bilet PopKino")
+
+    # szczegóły rezerwacji
+    p.drawString(100, 700, f"Imię i nazwisko: {reservation.username}")
+    p.drawString(100, 675, f"Email: {reservation.email}")
+    p.drawString(100, 650, f"Tytuł filmu: {movie.title}")
+    p.drawString(100, 625, f"Data seansu: {showing.show_time.strftime('%Y-%m-%d %H:%M')}")
+    p.drawString(100, 600, f"Numer biletu: {reservation.ticket_code}")
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return buffer
+
+# pobierz pdf
+@app.route("/generate_pdf/<int:reservation_id>")
+def generate_pdf(reservation_id):
     
-    return render_template(
-        "admin.html"
-    )
-"""
+    reservation = Reservation.query.filter_by(reservation_id=reservation_id).first()
+    if not reservation:
+        abort(404)
+
+    showing = Showing.query.filter_by(showing_id=reservation.showing_id).first()
+    movie = Movie.query.filter_by(movie_id=showing.movie_id).first()
+
+    pdf_file = generate_pdf_file(reservation, showing, movie)
+    return send_file(pdf_file, as_attachment=True, download_name="ticket.pdf")
+
+# panel admina
 @app.route("/admin", methods=["GET", "POST"])
 def admin_view():
     if request.method == "POST":
@@ -151,6 +189,7 @@ def admin_view():
     
     return render_template("admin.html")
 
+# sprawdzamy czy bilet jest ważny
 @app.route("/admin/bilety", methods=["GET", "POST"])
 def check_tickets():
     if request.method == "POST":

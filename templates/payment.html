@@ -33,10 +33,9 @@
           </div>
           <div class="col">
 
-            <form class="form-inline">
+            <form class="form-inline" id="coupon-form">
               <div class="form-group d-flex flex-row align-items-center">
-                <input type="text" class="form-control me-2" id="discount-code" name="user-discount-code"
-                  placeholder="Kod rabatowy">
+                <input type="text" class="form-control me-2" id="discount-code" name="user-discount-code" placeholder="Kod rabatowy">
                 <button type="submit" id="check-coupon" class="btn btn-primary rounded-3 px-4">Zastosuj</button>
               </div>
             </form>
@@ -67,23 +66,23 @@
 
           <hr>
 
-          <div class="row justify-content-between">
-            <div class="col-4">
-              <h5>Do zapłaty</h5>
-            </div>
-            <div class="col-4">
-              <h5>40 zł</h5>
-            </div>
-          </div>
+                <div class="row justify-content-between">
+                  <div class="col-4">
+                    <h5>Do zapłaty</h5>
+                  </div>
+                  <div class="col-4">
+                    <h5 id="order-price">40 zł</h5>
+                  </div>
+                </div>
 
-          <div class="row justify-content-between">
-            <div class="col-4">
-              <p>Rabat</p>
-            </div>
-            <div class="col-4">
-              <p>-0 zł</p>
-            </div>
-          </div>
+                <div class="row justify-content-between">
+                  <div class="col-4">
+                    <p>Rabat</p>
+                  </div>
+                  <div class="col-4">
+                    <p id="discount-value">Brak rabatu</p>
+                  </div>
+                </div>
 
         </div>
 
@@ -133,5 +132,9 @@
         class="btn btn-primary rounded-3 px-4 align-self-end ">Przejdź dalej</button></a>
   </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/coupon.js') }}"></script>
 
 {% endblock %}

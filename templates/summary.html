@@ -11,7 +11,7 @@
     <li><strong>Kod biletu</strong> {{ reservation.ticket_code }}</li>
 </div>
 <div class="container">
-    <button class="btn btn-secondary">Pobierz pdf</button>
+    <a href="{{ url_for('generate_pdf', reservation_id=reservation.reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
 </div>
 
 {% endblock %}
