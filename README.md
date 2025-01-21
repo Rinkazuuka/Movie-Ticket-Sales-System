@@ -35,8 +35,8 @@ Uruchom program za pomocą komendy `python -m flask run`
 
 ## Organizacja plików
     │ 
-    ├── /instance                     # Instancje baz danych
-    │   └── database                  # Baza danych
+    ├── /instance                     # Bazy danych
+    │   └── database                  
     │ 
     ├── /static                       # Pliki statyczne (CSS, JS, obrazy)
     │   └── css/                      # Pliki css
