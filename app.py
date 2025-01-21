@@ -1,5 +1,5 @@
-from flask import Flask, render_template, abort
-from database import db, Movie, Showing, Reservation, User, Coupon
+from flask import Flask, render_template, abort, flash, redirect, url_for
+from database import db, Movie, Showing, Reservation, User,  Coupon
 from datetime import date, datetime
 from collections import defaultdict
 from flask import Flask, render_template, request, redirect, url_for, session
@@ -11,6 +11,7 @@ from flask import Response, send_file
 from io import BytesIO
 from reportlab.pdfgen import canvas
 
+
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     "sqlite:///your_database.db"  # Zmień na odpowiednią bazę danych
@@ -20,11 +21,11 @@ db.init_app(app)
 
 app.secret_key = "your_secret_key"  # Ustaw silny klucz sesji
 
+
 @app.route("/")
 def show_movies():
      movies = Movie.query.all()  # Pobierz wszystkie filmy
      return render_template("index.html", movies=movies)
-
 
 
 @app.route("/movie/<int:movie_id>")

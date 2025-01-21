@@ -4,17 +4,17 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col border p-4">
+<div class="container d-flex flex-column ">
+    <div class="row"> 
+        <div class="col border p-4 rounded-start">
             <div id="seatsContainer" class="text-center mt-3">
                 <!-- JAVASCRIPT -->
             </div>
         </div>
 
-        <div class="col border p-4">
+        <div class="col border p-4 rounded-end">
             <div class="step" id="step3">
-                <h2>Wybierz miejsca</h2>
+                <h2 class="h2 fw-bold">Wybierz miejsca</h2>
                 <div id="seatsContainer" class="text-center mt-3">
                     <!-- JAVASCRIPT -->
                 </div>
@@ -28,5 +28,11 @@
         </div>
     </div>
 </div>
+
+
+<div class="container px-0 button-container mb-5 d-flex align-items-end flex-column mt-5">
+    <a id="Przejdz_dalej" href='/showing/{{showing.showing_id}}/personal' class="text-white"><button  class="btn btn-primary rounded-3 px-4">Przejdź dalej</button></a>
+</div>
+  
 
 {% endblock %}
