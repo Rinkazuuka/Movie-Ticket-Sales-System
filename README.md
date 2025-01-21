@@ -1,6 +1,6 @@
 # System rezerwacji biletów w kinie
 
-Celem naszego projektu było stworzenie aplikacji webowej, która umożliwia rezerwację biletów na seanse kinowe oraz zewnętrznego systemu do elektronicznej weryfikacji biletów. W realizacji tego zadania wykorzystaliśmy technologie takie jak HTML, CSS, biblioteka Bootstrap, JavaScript, Python, jQuery oraz Flask.
+Celem naszego projektu było stworzenie aplikacji webowej, która umożliwia rezerwację biletów na seanse kinowe oraz zewnętrznego systemu do elektronicznej weryfikacji biletów. W realizacji tego zadania wykorzystaliśmy technologie takie jak **HTML, CSS, biblioteka Bootstrap, JavaScript, Python, jQuery oraz Flask.**
 
 Główne funkcje naszej aplikacji to:
 * rezerwacja miejsca na interaktywnej mapie kina
@@ -31,8 +31,8 @@ W terminalu utwórz środowisko za pomocą komendy `python3 -m venv .env`. Po st
 #### 3. Uruchom plik *seed.py*
 Aby stworzyć bazę danych potrzebną do działania aplikacji oraz wypełnić ją przykładowymi danymi, otwórz plik *seed.py* za pomocą komendy `python seed.py`
 
-#### 4. Uruchom program
-Uruchom program za pomocą komendy `python -m flask run`
+#### 4. Uruchom program *app.py*
+Uruchom program *app.py* za pomocą komendy `python -m flask run`
 
 ## Organizacja plików
     │ 
@@ -148,7 +148,7 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
         password = db.Column(db.String, nullable=False)
 
 
-## Główne widoki w aplikacji
+## Główne widoki i funkcjonalności w aplikacji
 co zawierają, jakie funkcji=onalności, opis i jakiś screen. Jeśli trzeba to jeszcze screeny funkcjonalności
 ### Widok strony głównej
 
