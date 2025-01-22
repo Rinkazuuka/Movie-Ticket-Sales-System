@@ -167,7 +167,6 @@ footer {
 
 }
 
-
 /*@media (min-width: 768px) { ... }
 
 @media (min-width: 992px) { ... }
@@ -175,3 +174,60 @@ footer {
 @media (min-width: 1200px) { ... }
 
 @media (min-width: 1400px) { ... } */
+
+/* MOBILKA*/
+@media (max-width: 576px) {
+    .showing-card {
+        width: 100% !important;
+    }
+
+    #Kup_bilet {
+        width: 100% !important;
+    }
+
+    #movie-basics {
+        margin-top: 0px !important;
+    }
+
+    footer {
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #movie-image-container {
+        width: 100% !important;
+        height: 50% !important;
+    }
+
+    .button-container button {
+        width: 100% !important;
+    }
+
+    .inner-button-container {
+        flex-direction: column !important;
+    }
+
+    #movie-image {
+        height: 30vh;
+    }
+
+    footer .row {
+        text-align: center;
+    }
+
+    footer .col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    footer .nav {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 992px) {
+    #movie-image {
+        height: auto;
+    }
+}
