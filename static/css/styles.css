@@ -38,6 +38,12 @@ img {
     border-color: #5c3378 !important;
 }
 
+.btn-primary:disabled {
+    background-color: #673B8D;
+    border-color: #673B8D;
+    opacity: 50%;
+}
+
 .btn-outline-secondary {
     color: black;
 }
