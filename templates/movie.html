@@ -6,10 +6,10 @@
 
 <div id="movie-basics" class="container mt-5 mb-5">
     <div class="row gap-4">
-        <div class="col-4" id="movie-image-container">
+        <div class="col-12 col-md-4" id="movie-image-container">
             <img id="movie-image" src={{movie.image_url}} class="image-fluid w-100">
         </div>
-        <div class="col">
+        <div class="col-12 col-md-8">
             <h1 class="h1 fw-bold text-uppercase pb-2">
                 {{ movie.title }}
             </h1>
@@ -25,7 +25,6 @@
                     <p class=" fw-bold mb-1">Data premiery</p>
                     <p class="p"> {{ movie.release_date }} </p>
                 </div>
-
             </div>
             <a href="#seanse"><button id="Kup_bilet" class="btn btn-primary rounded-3 px-4">Kup bilet</button></a>
         </div>
@@ -51,14 +50,12 @@
                 </a>
             </div>
             {% endfor %}
-
         </div>
         {% endfor %}
         {% else %}
         <p>W najbliższym czasie nie ma zaplanowanych seansów dla tego filmu.</p>
         {% endif %}
     </div>
-</div>
 </div>
 
 {% endblock %}
