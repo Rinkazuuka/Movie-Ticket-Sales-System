@@ -3,15 +3,32 @@
 {% block title %}Strona Główna{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Udało się kupić bilet! 🍿</h2>
-    <p>Zapisz swój kod biletu lub pobierz pdf, który pokażesz w kinie.</p>
-    <li><strong>Tytuł filmu:</strong> {{ showing.movie.title }}</li>
-    <li><strong>Data i godzina pokazu:</strong> {{ showing.show_time }}</li>
-    <li><strong>Kod biletu</strong> {{ reservation.ticket_code }}</li>
+<div class="row mt-5 mb-5">
+    <div class="col-md">
+        <h2 class="mb-3">Udało się kupić bilet!🍿</h2>
+        <p>Zapisz swój kod biletu lub pobierz pdf i pokaż go w kinie.</p>
+        <div class="containerm m-0">
+            <a href="{{ url_for('generate_pdf', reservation_id=reservation.reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
+        </div>
+    </div>
+
+    <div class="col-md mt-4 mt-md-0">
+        <div class="card p-1" style="color: white; background-color: #673B8D; border-color: #673B8D;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between d-flex align-items-center mb-2">
+                    <div class="col">
+                        <h3 class="card-title">{{ showing.movie.title }}</h3>
+                    </div>
+                    <div class="col">
+                        <h4 class="text-end"><strong>{{ reservation.ticket_code }}</strong></h4>
+                    </div>
+                </div>
+                <p class="card-text">Data i godzina pokazu: <strong>{{ showing.show_time }}</strong></p>
+            </div>
+        </div>
+    </div>
+    
 </div>
-<div class="container">
-    <a href="{{ url_for('generate_pdf', reservation_id=reservation.reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
-</div>
+
 
 {% endblock %}

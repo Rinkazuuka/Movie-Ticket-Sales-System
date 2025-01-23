@@ -4,40 +4,70 @@
 
 {% block content %}
 
-<div class="card p-4">
+<div class="container-sm p-4 mb-5 mt-5" style="max-width: 600px;">
+    <div class="card p-4">
+        <form method="POST">
+            <h4 class="card-title mb-3">
+                Sprawdź, czy bilet jest ważny
+            </h4>
 
-    <form method="POST">
+            <div class="form-group mb-3">
+                <label for="client-ticket-code">Kod biletu</label>
+                <input type="text" class="form-control" id="client-ticket-code" name="client-ticket-code" placeholder="Kod biletu">
+            </div>
+    
+            <button type="submit" id="login" class="btn btn-primary rounded-3 px-4">Sprawdź</button>
+        </form>
 
-        <p>Wpisz kod biletu</p>
-        <div class="form-group mb-3">
-            <label for="client-ticket-code">Bilet</label>
-            <input type="text" class="form-control" id="client-ticket-code" name="client-ticket-code" placeholder="Kod biletu">
-        </div>
-
-        <button type="submit" id="login" class="btn btn-primary rounded-3 px-4">Sprawdź</button>
-
-    </form>
-
-    {% if error %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
-        </div>
+        {% if error %}
+            <div class="alert alert-danger mt-4" role="alert">
+                {{ error }}
+            </div>
         {% endif %}
 
         {% if success %}
-        <div class="alert alert-success" role="alert">
-            {{ success }}
-        </div>
-
-        <div class = "conatiner">
-            <li><strong>Imię i nazwisko klienta</strong> {{ reservation.username }}</li>
-            <li><strong>Email</strong> {{ reservation.email }} </li>
-            <li><strong>Tytuł filmu:</strong> {{ movie.title }}</li>
-            <li><strong>Data i godzina seansu:</strong> {{ showing.show_time }}</li>
-        </div>
-
+            <div class="alert alert-success mt-4" role="alert">
+                {{ success }}
+            </div>
+            <div class="container-flex">
+                <div class="row justify-content-between">
+                    <div class="col-sm">
+                        <p class="mb-0 mb-sm-2">Email</p>
+                    </div>
+                    <div class="col-sm">
+                        <p class="mb-3 mb-sm-2"><strong>{{ reservation.email }}</strong></p>
+                    </div>
+                </div>
+                <div class = "row justify-content-between">
+                    <div class="col-sm">
+                        <p class="mb-0 mb-sm-2">Imię i nazwisko klienta</p>
+                    </div>
+                    <div class="col-sm">
+                        <p class="mb-3 mb-sm-2"><strong>{{ reservation.username }}</strong></p>
+                    </div>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="col-sm">
+                        <p class="mb-0 mb-sm-2">Tytuł filmu</p>
+                    </div>
+                    <div class="col-sm">
+                        <p class="mb-3 mb-sm-2"><strong>{{ movie.title }}</strong></p>
+                    </div>
+                </div>
+                <div class="row justify-content-between">
+                    <div class="col-sm">
+                        <p class="mb-0 mb-sm-2">Data i godzina seansu</p>
+                    </div>
+                    <div class="col-sm">
+                        <p class="mb-3 mb-sm-2"><strong>{{ showing.show_time }}</strong></p>
+                    </div>
+                </div>
+            </div>
+            
         {% endif %}
 
+    </div>
 </div>
+    
 
 {% endblock %}
