@@ -97,6 +97,7 @@ body {
 body {
     display: flex;
     flex-direction: column;
+    font-family: Arial, sans-serif;
 }
 
 footer {
@@ -108,6 +109,9 @@ footer {
     margin-top: auto;
 }
 
+h1, h2 {
+    margin-top: 0;
+}
 
 @media (max-width: 576px) {
     .showing-card {
@@ -125,6 +129,7 @@ footer {
     footer {
         justify-content: center !important;
         align-items: center !important;
+        font-size: 0.9rem;
     }
 
     #movie-image-container {
@@ -158,6 +163,18 @@ footer {
     footer .nav {
         justify-content: center;
     }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1.2rem;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
 }
 
 @media (max-width: 992px) {
@@ -165,6 +182,17 @@ footer {
         height: auto;
     }
 
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
 }
 
 
