@@ -156,3 +156,12 @@ function updateTicketType(index, ticketType) {
 // }
 
 
+
+// akceptuj regulamin
+document.getElementById('exampleCheck1').addEventListener('change', function() {
+    var submitButton = document.getElementById('submitButton');
+    submitButton.disabled = !this.checked;
+});
+
+// disabled bez kliknięcia
+document.getElementById('submitButton').disabled = true;
