@@ -71,7 +71,7 @@
                     <h5>Do zapłaty</h5>
                   </div>
                   <div class="col-4">
-                    <h5 id="order-price">40 zł</h5>
+                    <h5><span id="totalAmount"></span> zł</h5>
                   </div>
                 </div>
 
@@ -125,16 +125,60 @@
   </div>
 </div>
 
-<div class="px-0 container button-container my-5">
+<div class="px-0 container button-container mt-4 mb-5">
   <div class="d-flex flex-row justify-content-between inner-button-container gap-2">
     <button id="Wstecz" class="btn btn-outline-secondary rounded-3 px-4">Wstecz</button>
-    <a id="Przejdz_dalej" href='/showing/{{showing.showing_id}}/personal/payment/summary' class="text-white"><button
-        class="btn btn-primary rounded-3 px-4 align-self-end ">Przejdź dalej</button></a>
+    <a href='/showing/{{showing.showing_id}}/personal/payment/summary' class="text-white"><button
+        class="btn btn-primary rounded-3 px-4 align-self-end " onclick="submitSeats()">Przejdź dalej</button></a>
   </div>
 </div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ url_for('static', filename='js/coupon.js') }}"></script>
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+        calculateTotal();
+    });
+
+function submitSeats() {
+    const seats = JSON.parse(sessionStorage.getItem('seats')) || [];
+    const showingId = '{{ showing.showing_id }}'; // Upewnij się, że masz dostęp do ID pokazu
+
+    // Przygotuj dane do wysłania
+    const occupiedSeats = seats.map(seat => ({
+        showing_id: showingId,
+        row: seat.row,
+        place: seat.place,
+        taken: true // Ustawiamy na true, ponieważ miejsca są zajęte
+    }));
+
+    // Wysłanie danych do serwera
+    fetch('/api/book_seats', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(occupiedSeats)
+    })
+    .then(response => {
+        if (response.ok) {
+            // Możesz przekierować użytkownika lub pokazać komunikat o sukcesie
+            window.location.href = `/showing/{{showing.showing_id}}/personal/payment/summary`; // Przykładowe przekierowanie
+        } else {
+            // Obsłuż błąd
+            alert('Wystąpił błąd podczas rezerwacji miejsc.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Wystąpił błąd podczas rezerwacji miejsc.');
+    });
+}
+
+
+</script>
+
 
 {% endblock %}

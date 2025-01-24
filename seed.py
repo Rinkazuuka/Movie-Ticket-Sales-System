@@ -1,9 +1,29 @@
-from database import db, Movie, Showing, Coupon, User, Reservation
+from database import db, Movie, Showing, Coupon, User, Reservation, Ticket
 from datetime import datetime, date
 from app import app
 
 
 def seed_db():
+    
+    tickets = [
+        
+        Ticket(
+            type = "Bilet normalny",
+            price = 30,
+        ),
+        
+        Ticket(
+            type = "Bilet ulgowy",
+            price = 15,
+        ),
+        
+
+    ]
+
+    for ticket in tickets:
+        db.session.add(ticket)
+    
+    
     movies = [
         Movie(
             title="Vaiana 2",
@@ -177,6 +197,11 @@ def seed_db():
     for showing in showings:
         db.session.add(showing)
 
+    db.session.commit()  # Zapisz pokazy, aby uzyskać ich ID
+
+
+    for showing in showings:
+        showing.create_seats()
 
     coupons = [
         
@@ -203,7 +228,6 @@ def seed_db():
 
     for user in users:
         db.session.add(user)
-
 
 
 

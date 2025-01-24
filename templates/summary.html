@@ -10,8 +10,13 @@
     <li><strong>Data i godzina pokazu:</strong> {{ showing.show_time }}</li>
     <li><strong>Kod biletu</strong> {{ reservation.ticket_code }}</li>
 </div>
-<div class="container">
+<div class="container mt-4">
     <a href="{{ url_for('generate_pdf', reservation_id=reservation.reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
 </div>
 
+
+
+<script>
+    
+</script>
 {% endblock %}
