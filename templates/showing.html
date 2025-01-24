@@ -8,21 +8,46 @@
     <div class="row"> 
         <div class="col-md border p-4 rounded-start mb-3 mb-md-0">
             <div id="seatsContainer" class="text-center mt-3">
-                <!-- JAVASCRIPT -->
+                <div class="seats-container  d-flex flex-column align-items-center">
+                    <hr class="border-5 w-50 align-self-center d-flex justify-content-center">
+                    {% for row, seats in grouped_seats.items() %}
+                    <div class="d-flex flex-row mb-2 align-items-center justify-content-center">
+                        <div class="me-4 alig-items-center"> {{ row }}</div>
+                        <div class="seats-row">
+                            {% for seat in seats %}
+                            {% if seat.taken == 1 %}
+                            <div class="seat-card taken">
+                                {{ seat.place }}
+                            </div>
+                            {% else %}
+                            <div class="seat-card" data-row="{{ row }}" data-place="{{ seat.place }}"
+                                onclick="toggleSeat(this, '{{row}}', '{{seat.place}}')">
+                                {{ seat.place }}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="ms-4 alig-items-center"> {{ row }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+
             </div>
         </div>
 
         <div class="col-md border p-4 rounded-end mb-3 mb-md-0">
             <div class="step" id="step3">
-                <h2 class="h2 fw-bold">Wybierz miejsca</h2>
+                <h2 class="h2 fw-bold">Wybrane miejsca</h2>
                 <div id="seatsContainer" class="text-center mt-3">
-                    <!-- JAVASCRIPT -->
+                    <ul id="seatlist" class="list-group list-unstyled">
+                        <!--Wybrane miejsca -->
+                    </ul>
                 </div>
-                <div class="mt-3">
-                    <select id="ticketType" class="form-select">
-                        <option value="normal">Bilet normalny - 25 zł</option>
-                        <option value="reduced">Bilet ulgowy - 18 zł</option>
-                    </select>
+                <hr class="mt-5">
+                <div id="totalPrice" class="mt-3 d-flex justify-content-between">
+                    <strong>SUMA: </strong>
+                    <strong><span id="totalAmount">0</span> zł</strong>
                 </div>
             </div>
         </div>
@@ -30,9 +55,62 @@
 </div>
 
 
-<div class="container px-0 button-container mb-5 d-flex align-items-end flex-column mt-5">
-    <a id="Przejdz_dalej" href='/showing/{{showing.showing_id}}/personal' class="text-white"><button  class="btn btn-primary rounded-3 px-4">Przejdź dalej</button></a>
+<div class="container px-0 button-container mb-5 d-flex align-items-end flex-column mt-4">
+    <a id='Przejdz_dalej_link' href='/showing/{{showing.showing_id}}/personal' class="text-white"><button id="Przejdz_dalej"
+            class="btn btn-primary rounded-3 px-4">Przejdź dalej</button></a>
 </div>
-  
+
+<script>
+    
+    let seats = JSON.parse(sessionStorage.getItem('seats')) || [];
+
+    function renderSelectedSeats() {
+        const seatList = document.getElementById('seatlist');
+        seatList.innerHTML = ''; // Upewnij się, że kontener jest pusty przed dodaniem nowych elementów
+        const seats = JSON.parse(sessionStorage.getItem('seats')) || []; // Odczytaj lub zainicjalizuj pustą tablicę
+        seats.forEach((seat, index) => {
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex flex-column border-0';
+            li.innerHTML = `<div class="d-flex flex-row justify-content-between mb-1 align-items-center">
+                            <p class="p m-0">Rząd ${seat.row}, Miejsce ${seat.place}</p>
+                            <button class="btn m-0 p-0 h-100" id="removeSeat" onclick="deleteSeat(${index})">
+                                <img class="p-0 m-0" src="/static/images/Xcircle.png" height="24px" width="24px">
+                            </button>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between gap-5 align-items-center alig-self-center">
+                            <div class="w-100">
+                                <select class="ticketType form-select" onchange="updateSeat(${index}, this.value, this.options[this.selectedIndex].getAttribute('data-type'))">
+                                    {% for ticket in tickets %}
+                                    <option value="{{ ticket.price }}" data-type="{{ ticket.type }}">{{ ticket.type }} - {{ ticket.price }} zł
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>`;
+            seatList.appendChild(li);
+
+            // Przywróć wybraną opcję z sessionStorage
+            const selectedTicketType = sessionStorage.getItem(`selectedTicketType_${seat.row}_${seat.place}`);
+            const selectedTicketPrice = sessionStorage.getItem(`selectedTicketPrice_${seat.row}_${seat.place}`);
+
+            if (selectedTicketType) {
+                const selectElement = li.querySelector('.ticketType');
+                selectElement.value = selectedTicketPrice; // Ustaw wartość na podstawie sessionStorage
+            }
+        });
+
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderSelectedSeats(); // Wywołaj funkcję przy ładowaniu strony
+        restoreSelectedSeats(); // Przywróć zaznaczone miejsca
+        renderSelectedSeats(); // Renderuj wybrane miejsca
+        calculateTotal();
+        // checkIfAnySeatIsSelected();
+    });
+
+
+</script>
 
 {% endblock %}

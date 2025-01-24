@@ -114,6 +114,9 @@ footer {
     margin-top: auto;
 }
 
+#removeSeat:focus {
+    border: none !important;
+}
 
 @media (max-width: 576px) {
     .showing-card {
@@ -173,6 +176,60 @@ footer {
 
 }
 
+.seats-container {
+    margin: 20px;
+}
+
+.row-label {
+    margin-right: 10px;
+    /* Odstęp między etykietą rzędu a miejscami */
+    font-weight: bold;
+    /* Pogrubienie etykiety rzędu */
+    width: 50px;
+    /* Ustalona szerokość dla etykiety rzędu */
+}
+
+.seats-row {
+    display: flex;
+    /* Ustaw miejsca w jednym rzędzie */
+    flex-wrap: nowrap;
+    /* Nie pozwól na zawijanie */
+}
+
+.seat-card {
+    width: 30px;
+    /* Szerokość kwadratu */
+    height: 35px;
+    /* Wysokość kwadratu */
+    display: flex;
+    /* Użyj flexbox do centrowania tekstu */
+    justify-content: center;
+    /* Wyśrodkowanie w poziomie */
+    align-items: center;
+    /* Wyśrodkowanie w pionie */
+    border-radius: 8px;
+    background-color: #D9D9D9;
+    /* Tło dla kwadratu */
+    margin: 5px;
+    /* Odstęp między miejscami */
+    cursor: pointer;
+    /* Zmiana kursora na wskaźnik */
+    transition: background-color 0.3s;
+    /* Płynna zmiana koloru tła */
+}
+
+/* .seat-card:hover {
+background-color: #9f9f9f; /* Zmiana koloru tła przy najechaniu */
+
+.seat-card.selected {
+    background-color: #673B8D;
+    color: white;
+}
+
+.seat-card.taken {
+    background-color: #4a4a4a;
+    color: white;
+}
 
 /*@media (min-width: 768px) { ... }
 
@@ -181,3 +238,4 @@ footer {
 @media (min-width: 1200px) { ... }
 
 @media (min-width: 1400px) { ... } */
+

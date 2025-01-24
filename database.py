@@ -22,16 +22,6 @@ class Movie(db.Model):
     showings = db.relationship("Showing", back_populates="movie")
 
 
-# class Screen(db.Model):
-#     __tablename__ = 'screens'
-
-#     screen_id = db.Column(db.Integer, primary_key=True)
-#     screen_number = db.Column(db.String(50), nullable=False)
-#     capacity = db.Column(db.Integer, nullable=False)
-#     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-#     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-
 class Showing(db.Model):
     __tablename__ = "showings"
 
@@ -44,10 +34,14 @@ class Showing(db.Model):
     available_seats = db.Column(db.Integer, nullable=False)
 
     movie = db.relationship("Movie", back_populates="showings")
+    seats = db.relationship("Seat", back_populates="showing")  # Dodaj tę linię
 
-    # movie = relationship('Movie', foreign_keys='Showing.movie_id')
-    # showing = relationship('Movie', foreign_keys='Showing.showing_id')
-
+    def create_seats(self):
+        for row in range(1, 7):  # 6 rzędów
+            for place in range(1, 11):  # 10 miejsc w każdym rzędzie
+                seat = Seat(row=row, place=place, showing_id=self.showing_id)  # Upewnij się, że showing_id jest poprawnie przypisane
+                db.session.add(seat)
+        db.session.commit()
 
 class Reservation(db.Model):
     __tablename__ = 'reservations'
@@ -64,6 +58,22 @@ class Reservation(db.Model):
 class User(db.Model):
     username = db.Column(db.String, primary_key=True)
     password = db.Column(db.String, nullable=False)
+    
+class Ticket(db.Model):
+    type = db.Column(db.String, primary_key=True)
+    price = db.Column(db.Integer, nullable=False)
+
+
+class Seat(db.Model):
+    __tablename__ = 'seats'
+    
+    seat_id = db.Column(db.Integer, primary_key=True)
+    showing_id =  db.Column(db.Integer, db.ForeignKey("showings.showing_id"), nullable=False)
+    row = db.Column(db.Integer, nullable=False)
+    place = db.Column(db.Integer, nullable=False)
+    taken = db.Column(db.Boolean, nullable=False, default=False)
+
+    showing = db.relationship("Showing", back_populates="seats")  # Dodaj tę linię
 
 
 # class Payment(db.Model):
