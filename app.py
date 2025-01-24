@@ -122,7 +122,7 @@ def check_coupon():
         return jsonify({"valid": False, "discount": 0})
 
 
-@app.route("/showing/<showing_id>/personal/payment/summary")
+"""@app.route("/showing/<showing_id>/personal/payment/summary")
 def summary(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
 
@@ -146,7 +146,55 @@ def summary(showing_id):
         reservation_id=new_reservation.reservation_id
     ).first()
 
+    return render_template("summary.html", showing=showing, reservation=reservation)"""
+
+@app.route("/showing/<showing_id>/personal/payment/summary")
+def summary(showing_id):
+    showing = Showing.query.filter_by(showing_id=showing_id).first()
+
+    username = session.get("username", "N/A")
+    email = session.get("email", "N/A")
+    ticketnumber = session.get("ticket_number", "Nie ma biletu")
+    seatsordered = session.get("seats", [])
+
+    # dodaj rezerwacje do bazy po zaplaceniu 
+    new_reservation = Reservation(
+        showing_id=showing_id,
+        ticket_code=ticketnumber,
+        number_of_tickets=len(seatsordered),
+        username=username,
+        email=email,
+        status="ważny",
+    )
+    db.session.add(new_reservation)
+    db.session.commit() 
+
+    # dodawanie informacji do tabeli z miejscami
+    for seat_info in seatsordered:
+        row, place = seat_info 
+        
+        seat = Seat.query.filter_by(showing_id=showing_id, row=row, place=place).first()
+        if seat:
+            seat.taken = True 
+            db.session.commit()
+
+    # informacja o miejscach w reservation
+    for seat_info in seatsordered:
+        row, place = seat_info
+        reservation_seat = {
+            'reservation_id': new_reservation.reservation_id,
+            'row': row,
+            'place': place
+        }
+
+    db.session.commit()
+
+    reservation = Reservation.query.filter_by(
+        reservation_id=new_reservation.reservation_id
+    ).first()
+
     return render_template("summary.html", showing=showing, reservation=reservation)
+
 
 
 # generowanie biletu pdf
