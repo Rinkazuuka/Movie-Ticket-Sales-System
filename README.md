@@ -148,8 +148,8 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
         password = db.Column(db.String, nullable=False)
 
 
-## Główne widoki i funkcjonalności w aplikacji
-co zawierają, jakie funkcjonalności, opis i jakiś screen. Jeśli trzeba to jeszcze screeny funkcjonalności
+# Główne widoki i funkcjonalności w aplikacji
+
 ### Widok strony głównej
 Strona główna, która wyświetla się po uruchomieniu aplikacji
 ![image](https://github.com/user-attachments/assets/722ef405-06f8-478d-af3e-82c80e004067)
