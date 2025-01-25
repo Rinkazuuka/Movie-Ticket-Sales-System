@@ -149,7 +149,7 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
 
 
 ## Główne widoki i funkcjonalności w aplikacji
-co zawierają, jakie funkcji=onalności, opis i jakiś screen. Jeśli trzeba to jeszcze screeny funkcjonalności
+co zawierają, jakie funkcjonalności, opis i jakiś screen. Jeśli trzeba to jeszcze screeny funkcjonalności
 ### Widok strony głównej
 
 ### Widok filmu
@@ -161,7 +161,7 @@ co zawierają, jakie funkcji=onalności, opis i jakiś screen. Jeśli trzeba to 
 ### Widok weryfikacji
 
 ### Strona 404
-
+Strona 404 wyświetla się, gdy serwer nie może znaleźć żądanego zasobu.
 
 ![image](https://github.com/user-attachments/assets/c0eed2a8-6806-43d5-b0c3-48c94753ee1c)
 
