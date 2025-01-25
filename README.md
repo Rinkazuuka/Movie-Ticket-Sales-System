@@ -151,14 +151,34 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
 ## Główne widoki i funkcjonalności w aplikacji
 co zawierają, jakie funkcjonalności, opis i jakiś screen. Jeśli trzeba to jeszcze screeny funkcjonalności
 ### Widok strony głównej
+Strona główna, która wyświetla się po uruchomieniu aplikacji
+![image](https://github.com/user-attachments/assets/722ef405-06f8-478d-af3e-82c80e004067)
 
 ### Widok filmu
 
+Po wybraniu filmu, który nas interesuje trafiamy na taki widok, gdzie możemy dowiedzieć się kiedy są najbliższe seanse i kupić bilet
+![image](https://github.com/user-attachments/assets/ee8eed2c-99c3-447c-ac60-b4147f695b90)
+
 ### Widok rezerwacji miejsc
+
+Następnie możemy wybrać miejsca, które nas interesują oraz ulgę, jeżeli ją posiadamy. System automatycznie wyliczy nam cenę.
+![image](https://github.com/user-attachments/assets/63e1ec18-4e93-48c1-a605-7aafb3036c09)
+
+### Widok weryfikacji
+
+Podsumowanie z naszego wyboru siedzeń oraz miejsce na wpisanie swoich danych osobowych i akceptację regulaminu
+![image](https://github.com/user-attachments/assets/368a285d-808b-4fc5-b6c6-0902e597d054)
 
 ### Widok płatności
 
-### Widok weryfikacji
+To tutaj mozemy zobaczyć podsumowanie naszej rezerwacji, miejsce na kupon rabatowy, koszt naszej rezeracji oraz możemy wybrać sposób płatności, który nas interesuje
+![image](https://github.com/user-attachments/assets/814e05e2-5b86-4345-b580-3662a7747f5a)
+
+### Finalizacja zakupu
+
+To tutaj otrzymujemy nasz kod biletu, który możemy pobrać
+![image](https://github.com/user-attachments/assets/9aab0bf0-eae7-4d51-861b-470004774509)
+
 
 ### Strona 404
 Strona 404 wyświetla się, gdy serwer nie może znaleźć żądanego zasobu.
