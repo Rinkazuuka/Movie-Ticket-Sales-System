@@ -130,14 +130,14 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
     class Reservation(db.Model):
         __tablename__ = 'reservations'
         
-        reservation_id = db.Column(db.Integer, primary_key=True)
-        ticket_code = db.Column(db.String, nullable=False)
-        showing_id = db.Column(db.Integer, db.ForeignKey('showings.showing_id'), nullable=False)
-        number_of_tickets = db.Column(db.Integer, nullable=False)
-        reservation_date = db.Column(db.DateTime, default=datetime.utcnow)
-        status = db.Column(db.String(20), nullable=False)  # "ważny", "nieważny"
-        created_at = db.Column(db.DateTime, default=datetime.utcnow)
-        username = db.Column(db.String(100), nullable=False)
+        reservation_id = db.Column(db.Integer, primary_key=True)                                    # ID rezerwacji
+        ticket_code = db.Column(db.String, nullable=False)                                          # Kod biletu
+        showing_id = db.Column(db.Integer, db.ForeignKey('showings.showing_id'), nullable=False)    # ID pokazu
+        number_of_tickets = db.Column(db.Integer, nullable=False)                                   # Liczba biletów
+        reservation_date = db.Column(db.DateTime, default=datetime.utcnow)                          # Data rezerwacji
+        status = db.Column(db.String(20), nullable=False)                                           # "ważny", "nieważny"
+        created_at = db.Column(db.DateTime, default=datetime.utcnow)                                # Data utworzenia
+        username = db.Column(db.String(100), nullable=False)                                        #
         email = db.Column(db.String(100), nullable=False)
 
 ### User
