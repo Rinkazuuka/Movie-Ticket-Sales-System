@@ -5,6 +5,7 @@ from collections import defaultdict
 from flask import Flask, render_template, request, redirect, url_for, session
 import uuid
 from flask import jsonify
+import json
 
 # zapisywanie pdf
 from flask import Response, send_file
@@ -92,6 +93,7 @@ def payment(showing_id):
         email = request.form.get("user-email")
         session["username"] = username
         session["email"] = email
+        
 
         # losuj unikalny bilet
         session["ticket_number"] = str(uuid.uuid4())[:8]
@@ -122,42 +124,19 @@ def check_coupon():
         return jsonify({"valid": False, "discount": 0})
 
 
+
 """@app.route("/showing/<showing_id>/personal/payment/summary")
 def summary(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
 
-    username = session.get("username", "N/A")
-    email = session.get("email", "N/A")
-    ticketnumber = session.get("ticket_number", "Nie ma biletu")
-
-    # dodaj rezerwacje do bazy
-    new_reservation = Reservation(
-        showing_id=showing_id,
-        ticket_code=ticketnumber,
-        number_of_tickets=14,  # wartosc in progress
-        username=username,
-        email=email,
-        status="ważny",
-    )
-    db.session.add(new_reservation)
-    db.session.commit()
-
-    reservation = Reservation.query.filter_by(
-        reservation_id=new_reservation.reservation_id
-    ).first()
-
-    return render_template("summary.html", showing=showing, reservation=reservation)"""
-
-@app.route("/showing/<showing_id>/personal/payment/summary")
-def summary(showing_id):
-    showing = Showing.query.filter_by(showing_id=showing_id).first()
-
+    # Pobranie informacji o użytkowniku z sesji
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
     ticketnumber = session.get("ticket_number", "Nie ma biletu")
     seatsordered = session.get("seats", [])
+    print("Seats ordered:", seatsordered)
 
-    # dodaj rezerwacje do bazy po zaplaceniu 
+    # Dodanie rezerwacji do bazy po zapłaceniu
     new_reservation = Reservation(
         showing_id=showing_id,
         ticket_code=ticketnumber,
@@ -167,18 +146,17 @@ def summary(showing_id):
         status="ważny",
     )
     db.session.add(new_reservation)
-    db.session.commit() 
+    db.session.commit()
 
-    # dodawanie informacji do tabeli z miejscami
+    # Aktualizacja miejsc w bazie
     for seat_info in seatsordered:
-        row, place = seat_info 
-        
+        row, place = seat_info
         seat = Seat.query.filter_by(showing_id=showing_id, row=row, place=place).first()
         if seat:
-            seat.taken = True 
+            seat.taken = True
             db.session.commit()
 
-    # informacja o miejscach w reservation
+    # Przypisanie miejsc do rezerwacji
     for seat_info in seatsordered:
         row, place = seat_info
         reservation_seat = {
@@ -186,14 +164,112 @@ def summary(showing_id):
             'row': row,
             'place': place
         }
+        # Możesz dodać logikę zapisania do tabeli rezerwacji miejsc
+        db.session.commit()
 
-    db.session.commit()
-
+    # Pobranie rezerwacji z bazy
     reservation = Reservation.query.filter_by(
         reservation_id=new_reservation.reservation_id
     ).first()
 
-    return render_template("summary.html", showing=showing, reservation=reservation)
+    print("Seats Ordered:", seatsordered)
+
+    return render_template("summary.html", 
+                           showing=showing, 
+                           reservation=reservation,
+                           email=email,
+                           seatsordered=seatsordered)"""
+
+"""@app.route("/showing/<showing_id>/personal/payment/summary")
+def summary(showing_id):
+    showing = Showing.query.filter_by(showing_id=showing_id).first()
+
+    # Pobranie informacji o użytkowniku z sesji
+    username = session.get("username", "N/A")
+    email = session.get("email", "N/A")
+    ticketnumber = session.get("ticket_number", "Nie ma biletu")
+
+    # Dodanie rezerwacji do bazy po zapłaceniu
+    new_reservation = Reservation(
+        showing_id=showing_id,
+        ticket_code=ticketnumber,
+        number_of_tickets=14,
+        username=username,
+        email=email,
+        status="ważny",
+    )
+    db.session.add(new_reservation)
+    db.session.commit()
+
+    # Pobranie rezerwacji z bazy
+    reservation = Reservation.query.filter_by(
+        reservation_id=new_reservation.reservation_id
+    ).first()
+
+    return render_template("summary.html", 
+                           showing=showing, 
+                           reservation=reservation,
+                           email=email)"""
+
+@app.route("/showing/<showing_id>/personal/payment/summary")
+def summary(showing_id):
+    showing = Showing.query.filter_by(showing_id=showing_id).first()
+
+    # Pobranie danych z sesji
+    selected_seats = session.get('occupiedSeats', [])  # Domyślnie pusta lista, jeśli brak danych
+    print("Zdeserializowane miejsca:", selected_seats)
+    print("Typ danych:", type(selected_seats))  # Powinno być <class 'list'>
+
+    # Liczba biletów
+    number_of_tickets = len(selected_seats)
+    print("Ilość biletów:", number_of_tickets)
+
+    '''# Pobranie informacji o użytkowniku z sesji
+    username = session.get("username", "N/A")
+    email = session.get("email", "N/A")
+    ticketnumber = session.get("ticket_number", "Nie ma biletu")'''
+
+    '''# Pobierz wybrane miejsca z sesji
+    selected_seats = session.get('seats', "N/A")
+    number_of_tickets = len(selected_seats)  # Liczba zarezerwowanych miejsc
+    print("Ilosc biletów", number_of_tickets)'''
+
+    '''# Pobierz wybrane miejsca z sesji i zdeserializuj je
+    selected_seats = json.loads(session.get('occupiedSeats', "[]"))
+    print("Zdeserializowane miejsca:", selected_seats)
+    print(type(selected_seats))
+    number_of_tickets = len(selected_seats)  # Liczba zarezerwowanych miejsc
+    print("Ilosc biletów", number_of_tickets)
+
+    # Przykład dostępu do poszczególnych elementów
+    for seat in selected_seats:
+        print(f"Rząd: {seat['row']}, Miejsce: {seat['place']}, Bilet: {seat['ticket_type']}")'''
+
+    ###
+
+    # Dodanie rezerwacji do bazy po zapłaceniu
+    new_reservation = Reservation(
+        showing_id=showing_id,
+        ticket_code=ticketnumber,
+        number_of_tickets=number_of_tickets,  # Zmieniona liczba biletów
+        username=username,
+        email=email,
+        status="ważny",
+    )
+    db.session.add(new_reservation)
+    db.session.commit()
+
+    # Pobranie rezerwacji z bazy
+    reservation = Reservation.query.filter_by(
+        reservation_id=new_reservation.reservation_id
+    ).first()
+
+
+    return render_template("summary.html", 
+                           showing=showing, 
+                           reservation=reservation,
+                           email=email,
+                           number_of_tickets=number_of_tickets)  # Przekazanie liczby biletów
 
 
 
@@ -293,7 +369,7 @@ def check_tickets():
     return render_template("tickets.html")
 
 
-@app.route('/api/book_seats', methods=['POST'])
+'''@app.route('/api/book_seats', methods=['POST'])
 def book_seats():
     data = request.get_json()
     for seat_data in data:
@@ -301,7 +377,27 @@ def book_seats():
         if seat:
             seat.taken = True  # Ustaw 'taken' na True
             db.session.commit()  # Zapisz zmiany w bazie danych
-    return jsonify({'message': 'Seats booked successfully!'}), 200
+    return jsonify({'message': 'Seats booked successfully!'}), 200'''
+
+@app.route('/api/book_seats', methods=['POST'])
+def book_seats():
+    # Pobranie danych z ciała żądania JSON
+    data = request.get_json()
+    print("Odebrane dane z fetch:", data)  # Debugowanie danych z frontendu
+
+    # Zapisanie danych w sesji Flask
+    session['occupiedSeats'] = data  # Zapisujemy całą listę miejsc w sesji
+    print("Dane zapisane w sesji:", session['occupiedSeats'])
+
+    # Przetwarzanie danych (zaznaczenie miejsc jako zajęte w bazie danych)
+    for seat_data in data:
+        seat = Seat.query.filter_by(showing_id=seat_data['showing_id'], row=seat_data['row'], place=seat_data['place']).first()
+        if seat:
+            seat.taken = True  # Ustaw 'taken' na True
+            db.session.commit()  # Zapisz zmiany w bazie danych
+
+    # Zwrócenie odpowiedzi JSON
+    return jsonify({'message': 'Seats booked and saved to session successfully!'}), 200
 
 
 

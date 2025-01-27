@@ -1,4 +1,4 @@
-$(document).ready(function () {
+/*$(document).ready(function () {
     $("#coupon-form").on("submit", function (event) {
         event.preventDefault(); 
 
@@ -25,4 +25,4 @@ $(document).ready(function () {
             }
         });
     });
-});
+});*/

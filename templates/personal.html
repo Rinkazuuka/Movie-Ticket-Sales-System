@@ -68,6 +68,8 @@
     document.addEventListener('DOMContentLoaded', () => {
         renderSelectedSeatsList(); // Wywołaj funkcję przy ładowaniu strony
         calculateTotal();
+        restoreSelectedSeats();
+        checkIfAnySeatIsSelected(); // Sprawdź początkowy stan przycisku
     });
 
     function renderSelectedSeatsList() {
@@ -84,6 +86,17 @@
             seatList.appendChild(li);
         });
     }
+
+    
+
+// akceptuj regulamin
+document.getElementById('exampleCheck1').addEventListener('change', function() {
+    var submitButton = document.getElementById('submitButton');
+    submitButton.disabled = !this.checked;
+});
+
+// disabled bez kliknięcia
+document.getElementById('submitButton').disabled = true;
 
 </script>
 

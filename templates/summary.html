@@ -24,6 +24,13 @@
                     </div>
                 </div>
                 <p class="card-text">Data i godzina pokazu: <strong>{{ showing.show_time }}</strong></p>
+                <p class="card-text">Liczba biletów: {{ reservation.number_of_tickets }}</p>
+                <h4>Wybrane siedzenia:</h4>
+                    <ul>
+                        {% for seat in selected_seats %}
+                            <li>Rząd {{ seat.row }}, Miejsce {{ seat.place }}</li>
+                        {% endfor %}
+                    </ul>
             </div>
         </div>
     </div>

@@ -38,10 +38,10 @@ img {
     border-color: #5c3378 !important;
 }
 
-.btn-primary:disabled {
-    background-color: #673B8D;
-    border-color: #673B8D;
-    opacity: 50%;
+.btn-primary:disabled, .btn-primary.disabled {
+    background-color: #673B8D !important;
+    border-color: #673B8D !important;
+    opacity: 50% !important;
 }
 
 .btn-outline-secondary {
@@ -69,7 +69,9 @@ option:focus {
 
 }
 
-
+.list-group li {
+    background-color: transparent;
+}
 
 /* .form-check-input:focus {
     --bs-focus-ring-color: rgba(225, 204, 243, 1) !important;
