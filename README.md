@@ -9,7 +9,8 @@ Główne funkcje naszej aplikacji to:
 * dodawanie kuponu rabatowego
 * bilet elektroniczny w wersji PDF
 * weryfikacja ważności blietu przez admina
-* cadcedcwacsc
+* czasowe ograniczenie rezerwacji
+  
 
 
 ## Otwieranie projektu
