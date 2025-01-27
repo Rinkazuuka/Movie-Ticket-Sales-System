@@ -72,7 +72,7 @@ Uruchom program *app.py* za pomocą komendy `python -m flask run`
 
 
 ## Interfejs API
-Aplikacja udostępnia kilka punktów końcowych API, które umożliwiają interakcję z systemem rezerwacji. Aplikacja zawiera endpointy takie jak:
+Aplikacja udostępnia kilka punktów końcowych API, które umożliwiają interakcję z systemem rezerwacji.
 
 * `/` - Strona główna aplikacji 
 * `/movie/<int:movie_id>` - Opis filmu z bazy danych
@@ -80,7 +80,6 @@ Aplikacja udostępnia kilka punktów końcowych API, które umożliwiają intera
 * `/showing/<showing_id>/personal/payment` - Płatność za wybrane bilety
 * `/showing/<showing_id>/personal/payment/summary` - Podsumowanie transakcji 
 * `/check_coupon` - Sprawdzanie, czy kupon istnieje
-* `/generate_pdf/<int:reservation_id>` - Generowanie biletu w formacie PDF
 * `/admin` - Logowanie do konta admina
 * `/admin/bilety`- Strona do weryfikacji biletów przez admina
 
@@ -125,7 +124,7 @@ Tabela reprezentuje pokazy filmowe w kinie, które są dostępne dla użytkownik
         movie = db.relationship("Movie", back_populates="showings")
 
 ### Reservations
-Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
+Tabela  z wykonanymi rezerwacjami przez użytkowników.
 
     class Reservation(db.Model):
         __tablename__ = 'reservations'
@@ -137,8 +136,8 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
         reservation_date = db.Column(db.DateTime, default=datetime.utcnow)                          # Data rezerwacji
         status = db.Column(db.String(20), nullable=False)                                           # "ważny", "nieważny"
         created_at = db.Column(db.DateTime, default=datetime.utcnow)                                # Data utworzenia
-        username = db.Column(db.String(100), nullable=False)                                        #
-        email = db.Column(db.String(100), nullable=False)
+        username = db.Column(db.String(100), nullable=False)                                        # Nazwa użytkownika
+        email = db.Column(db.String(100), nullable=False)                                           # E-mail użytkownika
 
 ### User
 Tabela reprezentuje użytkowników personelu kina wraz z ich danymi do logowania. W swoim projekcie nie zaimplementowałyśmy żadnych zabezpieczeń do logowania, gdyż chciałyśmy tylko przetestować działanie weryfikacji biletów.
