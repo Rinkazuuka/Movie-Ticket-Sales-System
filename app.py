@@ -130,7 +130,6 @@ def book_seats():
     # Zwrócenie odpowiedzi JSON
     return jsonify({'message': 'Seats booked and saved to session successfully!'}), 200
 
-
 #eksperyment
 @app.route("/showing/<showing_id>/personal/payment", methods=["GET", "POST"])
 def payment(showing_id):
@@ -410,7 +409,6 @@ def summary(showing_id):
 @app.route("/showing/<showing_id>/personal/payment/summary", methods=["POST", "GET"])
 def summary(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
-    
     # Pobranie reservation_id z sesji
     reservation_id = session.get("reservation_id")
 
