@@ -62,9 +62,17 @@
                         <p class="mb-3 mb-sm-2"><strong>{{ showing.show_time }}</strong></p>
                     </div>
                 </div>
+                <h3>Szczegóły zarezerwowanych miejsc:</h3>
+                <ul>
+                {% for seat in reserved_seats %}
+                    <li>Rząd: {{ seat.row }}, Miejsce: {{ seat.place }}</li>
+                {% endfor %}
+                </ul>
+                {% else %}
+                    <p>Brak zarezerwowanych miejsc dla tego biletu.</p>
+                {% endif %}
             </div>
             
-        {% endif %}
 
     </div>
 </div>

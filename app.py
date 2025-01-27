@@ -347,11 +347,22 @@ def check_tickets():
             showing = Showing.query.filter_by(
                 showing_id=correct_ticket.showing_id
             ).first()
+
             # jaki film
             movie = Movie.query.filter_by(movie_id=showing.movie_id).first()
             if movie is None:
                 error_message = "Nie znaleziono filmu powiązanego z biletem."
                 return render_template("tickets.html", error=error_message)
+
+            # Pobierz miejsca zarezerwowane na ten pokaz NOWE
+            reserved_seats = Seat.query.filter_by(
+                showing_id=showing.showing_id, taken=True
+            ).all()
+
+            # Sformatuj dane miejsc dla szablonu
+            reserved_seats_details = [
+                {"row": seat.row, "place": seat.place} for seat in reserved_seats
+            ]
 
             success_message = "Ten bilet jest prawidłowy"
             return render_template(
@@ -360,6 +371,7 @@ def check_tickets():
                 reservation=correct_ticket,
                 showing=showing,
                 movie=movie,
+                reserved_seats=reserved_seats_details,  # Przekazanie miejsc do szablonu
             )
 
         else:
