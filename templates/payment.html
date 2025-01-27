@@ -35,7 +35,8 @@
 
             <form class="form-inline" id="coupon-form">
               <div class="form-group d-flex flex-row align-items-center">
-                <input type="text" class="form-control me-2" id="discount-code" name="user-discount-code" placeholder="Kod rabatowy">
+                <input type="text" class="form-control me-2" id="discount-code" name="user-discount-code"
+                  placeholder="Kod rabatowy">
                 <button type="submit" id="check-coupon" class="btn btn-primary rounded-3 px-4">Zastosuj</button>
               </div>
             </form>
@@ -48,37 +49,37 @@
 
           <div class="seat-selected-list justify-content-between d-flex flex-column">
             <ul id="selectedSeatList" class="list-group list-unstyled mt-3"></ul>
-        </div>
+          </div>
 
           <hr>
 
-                <div class="row justify-content-between">
-                  <div class="col-sm">
-                    <p class="mb-0 mb-sm-2">Koszt biletów (bez rabatu)</p>
-                  </div>
-                  <div class="col-sm">
-                    <p class="mb-3 mb-sm-2"><span id="totalAmount"></span> zł</p>
-                  </div>
-                </div>
+          <div class="row justify-content-between">
+            <div class="col-sm">
+              <p class="mb-0 mb-sm-2">Koszt biletów (bez rabatu)</p>
+            </div>
+            <div class="col-sm">
+              <p class="mb-3 mb-sm-2"><span id="totalAmount"></span> zł</p>
+            </div>
+          </div>
 
-                <div class="row justify-content-between">
-                  <div class="col-sm">
-                    <p class="mb-0 mb-sm-2">Rabat</p>
-                  </div>
-                  <div class="col-sm">
-                    <p id="discount-value" class="mb-3 mb-sm-2">Brak rabatu</p>
-                  </div>
-                </div>
+          <div class="row justify-content-between">
+            <div class="col-sm">
+              <p class="mb-0 mb-sm-2">Rabat</p>
+            </div>
+            <div class="col-sm">
+              <p id="discount-value" class="mb-3 mb-sm-2">Brak rabatu</p>
+            </div>
+          </div>
 
-                <div class="row justify-content-between">
-                  <div class="col-sm">
-                    <p class="mb-0 mb-sm-2"><strong>Do zapłaty</strong></p>
-                  </div>
-                  <div class="col-sm">
-                    <p class="mb-3 mb-sm-2"><strong><span id="totalAmountDiscount"></span> zł</strong></p>
-                  </div>
-                </div>
-                
+          <div class="row justify-content-between">
+            <div class="col-sm">
+              <p class="mb-0 mb-sm-2"><strong>Do zapłaty</strong></p>
+            </div>
+            <div class="col-sm">
+              <p class="mb-3 mb-sm-2"><strong><span id="totalAmountDiscount"></span> zł</strong></p>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -134,11 +135,11 @@
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <script>
 
-document.addEventListener('DOMContentLoaded', () => {
-        calculateTotal();
-    });
+  document.addEventListener('DOMContentLoaded', () => {
+    calculateTotal();
+  });
 
-function submitSeats() {
+  async function submitSeats() {
     console.log("submitSeats!!! Sesja:", sessionStorage.getItem('seats'));
 
     const seats = JSON.parse(sessionStorage.getItem('seats')) || [];
@@ -146,34 +147,36 @@ function submitSeats() {
 
     // Przygotuj dane do wysłania
     const occupiedSeats = seats.map(seat => ({
-        showing_id: showingId,
-        row: seat.row,
-        place: seat.place,
-        taken: true // Ustawiamy na true, ponieważ miejsca są zajęte
+      showing_id: showingId,
+      row: seat.row,
+      place: seat.place,
+      taken: true, // Ustawiamy na true, ponieważ miejsca są zajęte
+      ticket_type: seat.ticket_type,
     }));
 
     // Wysłanie danych do serwera
-    fetch('/api/book_seats', {
+    try {
+      const response = await fetch('/api/book_seats', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(occupiedSeats)
-    })
-    .then(response => {
-        if (response.ok) {
-            // Możesz przekierować użytkownika lub pokazać komunikat o sukcesie
-            window.location.href = `/showing/{{showing.showing_id}}/personal/payment/summary`; // Przykładowe przekierowanie
-        } else {
-            // Obsłuż błąd
-            alert('Wystąpił błąd podczas rezerwacji miejsc.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
+      });
+
+      if (response.ok) {
+        // Przekierowanie użytkownika po zakończeniu operacji
+        window.location.href = `/showing/{{showing.showing_id}}/personal/payment/summary`;
+      } else {
+        // Obsłuż błąd
         alert('Wystąpił błąd podczas rezerwacji miejsc.');
-    });
-}
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Wystąpił błąd podczas rezerwacji miejsc.');
+    }
+  }
+
 
 
 </script>
@@ -183,23 +186,23 @@ function submitSeats() {
   let seats = JSON.parse(sessionStorage.getItem('seats')) || [];
 
   document.addEventListener('DOMContentLoaded', () => {
-      renderSelectedSeatsList(); // Wywołaj funkcję przy ładowaniu strony
-      calculateTotal();
+    renderSelectedSeatsList(); // Wywołaj funkcję przy ładowaniu strony
+    calculateTotal();
   });
 
   function renderSelectedSeatsList() {
-      const seatList = document.getElementById('selectedSeatList');
-      seatList.innerHTML = '';
-      const seats = JSON.parse(sessionStorage.getItem('seats')) || []; // Odczytaj lub zainicjalizuj pustą tablicę
-      seats.forEach((seat, index) => {
-          const li = document.createElement('li');
-          li.className = 'list-group-item list-unstyled p-0  flex-column border-0';
-          li.innerHTML = ` <div class="d-flex flex-row justify-content-between">
+    const seatList = document.getElementById('selectedSeatList');
+    seatList.innerHTML = '';
+    const seats = JSON.parse(sessionStorage.getItem('seats')) || []; // Odczytaj lub zainicjalizuj pustą tablicę
+    seats.forEach((seat, index) => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item list-unstyled p-0  flex-column border-0';
+      li.innerHTML = ` <div class="d-flex flex-row justify-content-between">
                               <p class="p m-0">Rząd ${seat.row}, miejsce ${seat.place}</p>
                               <p class="p m-0">${seat.ticket_type} - ${seat.ticket_price} zł</p>
                           </div>`;
-          seatList.appendChild(li);
-      });
+      seatList.appendChild(li);
+    });
   }
 
 </script>

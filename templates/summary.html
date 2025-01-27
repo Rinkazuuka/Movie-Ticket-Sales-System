@@ -20,15 +20,15 @@
                         <h3 class="card-title">{{ showing.movie.title }}</h3>
                     </div>
                     <div class="col">
-                        <h4 class="text-end"><strong>{{ reservation.ticket_code }}</strong></h4>
+                        <h4 class="text-end"><strong>{{ ticketnumber }}</strong></h4>
                     </div>
                 </div>
                 <p class="card-text">Data i godzina pokazu: <strong>{{ showing.show_time }}</strong></p>
-                <p class="card-text">Liczba biletów: {{ reservation.number_of_tickets }}</p>
+                <p class="card-text">Liczba biletów: {{ number_of_tickets }}</p>
                 <h4>Wybrane siedzenia:</h4>
                     <ul>
                         {% for seat in selected_seats %}
-                            <li>Rząd {{ seat.row }}, Miejsce {{ seat.place }}</li>
+                            <li>Rząd {{ seat.row }}, Miejsce {{ seat.place }} - {{ seat.ticket_type }} </li>
                         {% endfor %}
                     </ul>
             </div>
