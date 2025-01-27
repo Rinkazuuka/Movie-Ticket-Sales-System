@@ -111,7 +111,6 @@ def payment(showing_id):
 
 @app.route('/api/book_seats', methods=['POST'])
 def book_seats():
-    # Pobranie danych z ciała żądania JSON
     data = request.get_json()
     print("Odebrane dane z fetch:", data)  # Debugowanie danych z frontendu
 
@@ -153,21 +152,11 @@ def payment(showing_id):
     occupied_seats = session.get("occupiedSeats", [])
     print("Odczytano z sesji occupiedSeats:", occupied_seats)
 
-    """# Pobranie danych z sesji (zajęte miejsca)
-    occupied_seats = session.get("occupiedSeats", [])
-    print("Occupied_seats", session['occupiedSeats'])
-    print("Nasza zmienna", occupied_seats)
-
-    showing = Showing.query.filter_by(showing_id=showing_id).first()
-    # Liczba biletów
-    number_of_tickets = len(occupied_seats)
-    print("Ile miejsc", number_of_tickets)"""
-
     # Tworzenie rezerwacji
     new_reservation = Reservation(
         showing_id=showing_id,
         ticket_code=ticketnumber,
-        number_of_tickets=1,
+        number_of_tickets=len(occupied_seats),
         username=username,
         email=email,
         status="ważny",
@@ -181,7 +170,6 @@ def payment(showing_id):
     return render_template(
         "payment.html", showing=showing, username=username, email=email
     )
-
 
 
 @app.route("/check_coupon", methods=["POST"])
@@ -427,16 +415,12 @@ def summary(showing_id):
         # Jeśli brak reservation_id w sesji, przekierowujemy lub wyświetlamy błąd
         return redirect(url_for('payment', showing_id=showing_id))
 
-    # Zresetuj dane, które mogą pochodzić z poprzedniej rezerwacji
-    email = Reservation.query.filter_by(reservation_id=reservation_id).first
-
     return render_template(
         "summary.html",
         showing=showing,
         reservation=reservation,
         email=email,
         number_of_tickets=number_of_tickets,
-        #selected_seats=selected_seats
     )
 
         
