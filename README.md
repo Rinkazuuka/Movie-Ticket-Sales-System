@@ -91,9 +91,11 @@ Baza danych jest zbudowana przy użyciu SQL-Alchemy i zawiera następujące tabe
 * `reservations` - baza z dokonanymi rezerwacjami na seanse
 * `user` - baza dla zarejestrowanych użytkowników
 * `coupons` - baza dostępnych kuponów rabatowych
+* `seats` - baza z miejscami siedzącymi w kinie
+* `tickets` - baza z dostępnymi biletami do wyboru
 
 ### Movies
-Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
+Tabela reprezentuje filmy, które są dostępne dla użytkowników.
 
     class Movie(db.Model):
         __tablename__ = "movies"
@@ -109,18 +111,16 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
         showings = db.relationship("Showing", back_populates="movie")    # Relacja z tabelą Showing
 
 ### Showings
-Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
+Tabela reprezentuje pokazy filmowe w kinie, które są dostępne dla użytkowników.
 
     class Showing(db.Model):
         __tablename__ = "showings"
     
-        showing_id = db.Column(db.Integer, primary_key=True)
-        movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"), nullable=False)
-        # screen_id = db.Column(db.Integer, db.ForeignKey('screens.screen_id'), nullable=False)
-        movie_format = db.Column(db.String(10), nullable=False)  # 2D/3D
-        lang_type = db.Column(db.String(20), nullable=False)  # dubbing/napisy/lektor
-        show_time = db.Column(db.DateTime, nullable=False)
-        available_seats = db.Column(db.Integer, nullable=False)
+        showing_id = db.Column(db.Integer, primary_key=True)                                        # ID pokazu
+        movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"), nullable=False)          # ID filmu
+        movie_format = db.Column(db.String(10), nullable=False)                                     # 2D/3D
+        lang_type = db.Column(db.String(20), nullable=False)                                        # dubbing/napisy/lektor
+        show_time = db.Column(db.DateTime, nullable=False)                                          # Data pokazu
     
         movie = db.relationship("Movie", back_populates="showings")
 
@@ -141,11 +141,32 @@ Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
         email = db.Column(db.String(100), nullable=False)
 
 ### User
-Tabela reprezentuje seanse filmowe, które są dostępne dla użytkowników.
+Tabela reprezentuje użytkowników personelu kina wraz z ich danymi do logowania. W swoim projekcie nie zaimplementowałyśmy żadnych zabezpieczeń do logowania, gdyż chciałyśmy tylko przetestować działanie weryfikacji biletów.
 
     class User(db.Model):
-        username = db.Column(db.String, primary_key=True)
-        password = db.Column(db.String, nullable=False)
+        username = db.Column(db.String, primary_key=True)   # Nazwa użytkownika
+        password = db.Column(db.String, nullable=False)     # Hasło użytkownika
+
+### Tickets
+Tabela przechowywująca możliwe typy biletów (np. bilet normalny, bilet ulgowy)
+
+    class Ticket(db.Model):
+        type = db.Column(db.String, primary_key=True)       # Nazwa typu biletu (normalny, ulgowy)
+        price = db.Column(db.Integer, nullable=False)       # Cena biletu
+
+### Seats
+Tabela z miejscami na wybrane filmy.
+
+    class Seat(db.Model):
+        __tablename__ = 'seats'
+        
+        seat_id = db.Column(db.Integer, primary_key=True)                                                 # ID siedzenia
+        showing_id =  db.Column(db.Integer, db.ForeignKey("showings.showing_id"), nullable=False)         # ID pokazu
+        row = db.Column(db.Integer, nullable=False)                                                       # rząd
+        place = db.Column(db.Integer, nullable=False)                                                     # miejsce
+        taken = db.Column(db.Boolean, nullable=False, default=False)                                      # zajęte/wolne
+    
+        showing = db.relationship("Showing", back_populates="seats")                                      # relacja z tabelą Showing
 
 
 # Główne widoki i funkcjonalności w aplikacji
