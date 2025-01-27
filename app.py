@@ -218,16 +218,15 @@ def summary(showing_id):
     # Pobranie danych z sesji
     selected_seats = session.get('occupiedSeats', [])  # Domyślnie pusta lista, jeśli brak danych
     print("Zdeserializowane miejsca:", selected_seats)
-    print("Typ danych:", type(selected_seats))  # Powinno być <class 'list'>
 
     # Liczba biletów
     number_of_tickets = len(selected_seats)
     print("Ilość biletów:", number_of_tickets)
 
-    '''# Pobranie informacji o użytkowniku z sesji
+    # Pobranie informacji o użytkowniku z sesji
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
-    ticketnumber = session.get("ticket_number", "Nie ma biletu")'''
+    ticketnumber = session.get("ticket_number", "Nie ma biletu")
 
     '''# Pobierz wybrane miejsca z sesji
     selected_seats = session.get('seats', "N/A")
@@ -269,7 +268,8 @@ def summary(showing_id):
                            showing=showing, 
                            reservation=reservation,
                            email=email,
-                           number_of_tickets=number_of_tickets)  # Przekazanie liczby biletów
+                           number_of_tickets=number_of_tickets,
+                           selected_seats = selected_seats)  # Przekazanie liczby biletów
 
 
 
