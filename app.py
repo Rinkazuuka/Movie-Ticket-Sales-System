@@ -5,6 +5,8 @@ from collections import defaultdict
 from flask import Flask, render_template, request, redirect, url_for, session
 import uuid
 from flask import jsonify
+import json
+import logging
 
 # zapisywanie pdf
 from flask import Response, send_file
@@ -102,8 +104,9 @@ def payment(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
+    ticketnumber = session.get("ticket_number", "Nie ma biletu")
     return render_template(
-        "payment.html", showing=showing, username=username, email=email
+        "payment.html", showing=showing, username=username, email=email, ticketnumber=ticketnumber
     )
 
 
@@ -125,28 +128,46 @@ def check_coupon():
 @app.route("/showing/<showing_id>/personal/payment/summary")
 def summary(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
-
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
     ticketnumber = session.get("ticket_number", "Nie ma biletu")
 
-    # dodaj rezerwacje do bazy
-    new_reservation = Reservation(
-        showing_id=showing_id,
-        ticket_code=ticketnumber,
-        number_of_tickets=14,  # wartosc in progress
-        username=username,
-        email=email,
-        status="ważny",
-    )
-    db.session.add(new_reservation)
-    db.session.commit()
+    reserved_seats = session.get("seats", [])
+    
+    existing_reservations = Reservation.query.filter_by(showing_id=showing_id, username=username, ticket_code=ticketnumber).all()
 
-    reservation = Reservation.query.filter_by(
-        reservation_id=new_reservation.reservation_id
-    ).first()
+    if not existing_reservations:
+        # Dodaj rezerwacje do bazy tylko, jeśli nie istnieją
+        for seat in reserved_seats:
+            new_reservation = Reservation(
+                showing_id=showing_id,
+                ticket_code=ticketnumber,
+                username=username,
+                email=email,
+                status="ważny",
+                row=seat['row'],
+                place=seat['place'],
+                number_of_tickets=len(reserved_seats),
+            )
+            db.session.add(new_reservation)
+        db.session.commit()  # Zapisz zmiany w bazie danych
 
-    return render_template("summary.html", showing=showing, reservation=reservation)
+        # Wyczyść sesję po dodaniu rezerwacji
+        session.pop("seats", None)
+        session.pop("ticket_number", None)
+        session.pop("username", None)
+        session.pop("email", None)
+
+        reservations = Reservation.query.filter_by(showing_id=showing_id, username=username, ticket_code=ticketnumber).all()
+        return render_template("summary.html", showing=showing, reservations=reservations)
+
+    else:
+        logging.info("Existing reservations found, not adding new ones.")
+        return render_template("summary.html", showing=showing, reservations=existing_reservations)
+    # Pobierz wszystkie rezerwacje dla danego użytkownika
+
+
+
 
 
 # generowanie biletu pdf
@@ -248,11 +269,18 @@ def check_tickets():
 @app.route('/api/book_seats', methods=['POST'])
 def book_seats():
     data = request.get_json()
+    reserved_seats = []
+
     for seat_data in data:
         seat = Seat.query.filter_by(showing_id=seat_data['showing_id'], row=seat_data['row'], place=seat_data['place']).first()
         if seat:
             seat.taken = True  # Ustaw 'taken' na True
+            reserved_seats.append({'row': seat_data['row'], 'place': seat_data['place']})  # Dodaj do listy zarezerwowanych miejsc
             db.session.commit()  # Zapisz zmiany w bazie danych
+
+    # Zapisz zarezerwowane miejsca w session
+    session['seats'] = reserved_seats
+
     return jsonify({'message': 'Seats booked successfully!'}), 200
 
 

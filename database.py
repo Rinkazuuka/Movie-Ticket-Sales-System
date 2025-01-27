@@ -48,12 +48,14 @@ class Reservation(db.Model):
     reservation_id = db.Column(db.Integer, primary_key=True)
     ticket_code = db.Column(db.String, nullable=False)
     showing_id = db.Column(db.Integer, db.ForeignKey('showings.showing_id'), nullable=False)
-    number_of_tickets = db.Column(db.Integer, nullable=False)
     reservation_date = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.String(20), nullable=False)  # "ważny", "nieważny"
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
+    row = db.Column(db.Integer, nullable=False)
+    place = db.Column(db.Integer, nullable=False)
+    number_of_tickets = db.Column(db.Integer, nullable=True)
 
 class User(db.Model):
     username = db.Column(db.String, primary_key=True)

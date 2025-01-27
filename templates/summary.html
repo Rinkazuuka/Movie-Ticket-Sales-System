@@ -7,9 +7,13 @@
     <div class="col-md">
         <h2 class="mb-3">Udało się kupić bilet!🍿</h2>
         <p>Zapisz swój kod biletu lub pobierz pdf i pokaż go w kinie.</p>
-        <div class="containerm m-0">
-            <a href="{{ url_for('generate_pdf', reservation_id=reservation.reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
-        </div>
+        {% if reservations %}
+            <div class="containerm m-0">
+                <a href="{{ url_for('generate_pdf', reservation_id=reservations[0].reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
+            </div>
+        {% else %}
+            <p>Nie znaleziono rezerwacji.</p>
+        {% endif %}
     </div>
 
     <div class="col-md mt-4 mt-md-0">
@@ -19,21 +23,26 @@
                     <div class="col">
                         <h3 class="card-title">{{ showing.movie.title }}</h3>
                     </div>
+                    {% if reservations %}
                     <div class="col">
-                        <h4 class="text-end"><strong>{{ reservation.ticket_code }}</strong></h4>
+                        <h4 class="text-end"><strong>{{ reservations[0].ticket_code }}</strong></h4>
                     </div>
+                    {% endif %}
                 </div>
                 <p class="card-text">Data i godzina pokazu: <strong>{{ showing.show_time }}</strong></p>
+                <h5 class="mt-3">Zarezerwowane miejsca:</h5>
+                <ul>
+                    {% for reservation in reservations %}
+                        <li>Rząd: <strong>{{ reservation.row }}</strong>, Miejsce: <strong>{{ reservation.place }}</strong></li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
-    
+</div>
 </div>
 
-
-
-
 <script>
-    
+// Możesz dodać tutaj dodatkowy kod JavaScript, jeśli potrzebujesz
 </script>
 {% endblock %}
