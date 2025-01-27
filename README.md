@@ -185,7 +185,7 @@ Po wybraniu filmu, który nas interesuje trafiamy na taki widok, gdzie możemy d
 Następnie możemy wybrać miejsca, które nas interesują oraz ulgę, jeżeli ją posiadamy. System automatycznie wyliczy nam cenę.
 ![image](https://github.com/user-attachments/assets/63e1ec18-4e93-48c1-a605-7aafb3036c09)
 
-### Widok weryfikacji
+### Widok podsumowania
 
 Podsumowanie z naszego wyboru siedzeń oraz miejsce na wpisanie swoich danych osobowych i akceptację regulaminu
 ![image](https://github.com/user-attachments/assets/368a285d-808b-4fc5-b6c6-0902e597d054)
@@ -199,6 +199,10 @@ To tutaj mozemy zobaczyć podsumowanie naszej rezerwacji, miejsce na kupon rabat
 
 To tutaj otrzymujemy nasz kod biletu, który możemy pobrać
 ![image](https://github.com/user-attachments/assets/9aab0bf0-eae7-4d51-861b-470004774509)
+
+### Widok logowania do panelu admina 
+
+### Widok weryfikacji biletów przez admina
 
 
 ### Strona 404
