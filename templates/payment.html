@@ -124,7 +124,7 @@
 <div class="px-0 container button-container mt-4 mb-5">
   <div class="d-flex flex-row justify-content-between inner-button-container gap-2">
     <button id="Wstecz" class="btn btn-outline-secondary rounded-3 px-4">Wstecz</button>
-    <a href='/showing/{{showing.showing_id}}/personal/payment/summary' class="text-white"><button
+    <a class="text-white"><button
         class="btn btn-primary rounded-3 px-4 align-self-end " onclick="submitSeats()">Przejdź dalej</button></a>
   </div>
 </div>
@@ -156,7 +156,7 @@
 
     // Wysłanie danych do serwera
     try {
-      const response = await fetch('/api/book_seats', {
+        const response = await fetch('/api/book_seats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -165,6 +165,7 @@
       });
 
       if (response.ok) {
+        console.log(await response.json())
         // Przekierowanie użytkownika po zakończeniu operacji
         window.location.href = `/showing/{{showing.showing_id}}/personal/payment/summary`;
       } else {

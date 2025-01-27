@@ -8,7 +8,6 @@
         <h2 class="mb-3">Udało się kupić bilet!🍿</h2>
         <p>Zapisz swój kod biletu lub pobierz pdf i pokaż go w kinie.</p>
         <div class="containerm m-0">
-            <a href="{{ url_for('generate_pdf', reservation_id=reservation.reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
         </div>
     </div>
 
@@ -27,8 +26,8 @@
                 <p class="card-text">Liczba biletów: {{ number_of_tickets }}</p>
                 <h4>Wybrane siedzenia:</h4>
                     <ul>
-                        {% for seat in selected_seats %}
-                            <li>Rząd {{ seat.row }}, Miejsce {{ seat.place }} - {{ seat.ticket_type }} </li>
+                        {% for reservation in reservations %}
+                            <li>Rząd {{ reservation.row }}, Miejsce {{ reservation.place }} - {{ reservation.ticket_type }} </li>
                         {% endfor %}
                     </ul>
             </div>
