@@ -8,6 +8,7 @@
         <h2 class="mb-3">Udało się kupić bilet!🍿</h2>
         <p>Zapisz swój kod biletu lub pobierz pdf i pokaż go w kinie.</p>
         <div class="containerm m-0">
+            <a href="{{ url_for('generate_pdf', reservation_id=reservations[0].reservation_id) }}" class="btn btn-primary">Pobierz bilet</a>
         </div>
     </div>
 

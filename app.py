@@ -151,8 +151,11 @@ def summary(showing_id):
                         ticketnumber=ticketnumber)  # Przekazanie liczby biletów
 
 
+from io import BytesIO
+from reportlab.pdfgen import canvas
+
 # generowanie biletu pdf
-def generate_pdf_file(reservation, showing, movie):
+def generate_pdf_file(reservation, showing, movie, reservations):
     buffer = BytesIO()
     p = canvas.Canvas(buffer)
 
@@ -167,6 +170,14 @@ def generate_pdf_file(reservation, showing, movie):
     )
     p.drawString(100, 600, f"Numer biletu: {reservation.ticket_code}")
 
+    # Ustawienie początkowej pozycji Y dla biletów
+    ticket_start_y = 575  # Możesz dostosować tę wartość w zależności od potrzeb
+    line_height = 20  # Wysokość linii, możesz dostosować w zależności od czcionki
+
+    for i, ticket in enumerate(reservations):
+        # Oblicz nową pozycję Y dla każdego biletu
+        p.drawString(100, ticket_start_y - (i * line_height), f"Rząd: {ticket.row}, Miejsce: {ticket.place} - {ticket.ticket_type}")
+
     p.showPage()
     p.save()
 
@@ -174,18 +185,22 @@ def generate_pdf_file(reservation, showing, movie):
     return buffer
 
 
+
 # pobierz pdf
 @app.route("/generate_pdf/<int:reservation_id>")
 def generate_pdf(reservation_id):
 
     reservation = Reservation.query.filter_by(reservation_id=reservation_id).first()
+    ticketnumber = reservation.ticket_code
+    reservations = Reservation.query.filter_by(ticket_code=ticketnumber).all()
+
     if not reservation:
         abort(404)
 
     showing = Showing.query.filter_by(showing_id=reservation.showing_id).first()
     movie = Movie.query.filter_by(movie_id=showing.movie_id).first()
 
-    pdf_file = generate_pdf_file(reservation, showing, movie)
+    pdf_file = generate_pdf_file(reservation, showing, movie, reservations)
     return send_file(pdf_file, as_attachment=True, download_name="ticket.pdf")
 
 
@@ -219,6 +234,9 @@ def check_tickets():
         correct_ticket = Reservation.query.filter_by(
             ticket_code=ticket_code, status="ważny"
         ).first()
+        tickets = Reservation.query.filter_by(
+            ticket_code=ticket_code, status="ważny"
+        ).all()
 
         if correct_ticket:
             # seans
@@ -238,6 +256,7 @@ def check_tickets():
                 reservation=correct_ticket,
                 showing=showing,
                 movie=movie,
+                tickets=tickets,
             )
 
         else:
