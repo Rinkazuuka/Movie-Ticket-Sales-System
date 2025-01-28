@@ -45,9 +45,29 @@ function restoreSelectedSeats() {
     });
 }
 
+
+function checkIfAnySeatIsSelected() {
+    console.log("checkIfAnySeatIsSelected")
+    const seats = JSON.parse(sessionStorage.getItem('seats')) || [];
+    const button = document.getElementById('Przejdz_dalej');
+
+    if (seats.length > 0) {
+        button.classList.remove('disabled');
+        button.removeAttribute('disabled');
+    } else {
+        button.classList.add('disabled');
+        button.setAttribute('disabled', 'true');
+    }
+
+    // Zawsze zachowaj klasę btn-primary, CSS będzie sterował wyglądem
+    button.classList.add('btn-primary');
+}
+
+
 // Wybór miejsca
 function toggleSeat(seatElement, row, place) {
     let seats = JSON.parse(sessionStorage.getItem('seats')) || [];
+    console.log("Aktualna lista miejsc przed zapisaniem: ", seats);  // Logowanie przed dodaniem
 
     // Przełącz klasę 'selected' na klikniętym elemencie
     seatElement.classList.toggle('selected');
@@ -77,14 +97,16 @@ function toggleSeat(seatElement, row, place) {
         }
     }
 
+    // Logowanie po zaktualizowaniu listy miejsc
+    console.log("Zaktualizowana lista miejsc: ", seats);
     sessionStorage.setItem('seats', JSON.stringify(seats));
+    //console.log("Zaktualizowana lista miejsc po dodaniu do sesji", seats);
+    console.log("Sesja po zapisaniu:", sessionStorage.getItem('seats'));
     renderSelectedSeats(); // Jeśli masz funkcję do renderowania zaznaczonych miejsc
     calculateTotal();
-    // checkIfAnySeatIsSelected();
+    checkIfAnySeatIsSelected(); // Sprawdź, czy odblokować przycisk
 
 }
-
-
 
 // Usuwanie za pomocą krzyżyka
 function deleteSeat(index) {
@@ -111,7 +133,7 @@ function deleteSeat(index) {
     // Renderuj ponownie zaznaczone miejsca
     renderSelectedSeats();
     calculateTotal();
-    // checkIfAnySeatIsSelected();
+    checkIfAnySeatIsSelected();
 
 
 }
@@ -131,6 +153,58 @@ function calculateTotal() {
 
 }
 
+function calculateTotalDiscount(discount = 0) {
+    let total = 0;
+    let seats = JSON.parse(sessionStorage.getItem('seats')) || [];
+    seats.forEach(seat => {
+        const price = parseFloat(seat.ticket_price);
+        if (!isNaN(price)) {
+            total += price;
+        }
+    });
+
+    // Uwzględnienie rabatu
+    const discountedTotal = Math.max(total - discount, 0); // Zapobiega ujemnej kwocie
+    document.getElementById('totalAmountDiscount').innerText = discountedTotal.toFixed(2);
+}
+
+$(document).ready(function () {
+    $("#coupon-form").on("submit", function (event) {
+        event.preventDefault(); 
+
+        var coupon_code = $("#discount-code").val(); // pobierz kupon z formularza
+
+        $.ajax({
+            url: "/check_coupon",  
+            method: "POST",
+            data: {
+                coupon_code: coupon_code  
+            },
+            success: function (response) {
+                if (response.valid) {
+                    // Kod działa, zastosuj rabat
+                    $("#discount-value").text("-" + response.discount + " zł");
+
+                    // Ponowne obliczenie z rabatem
+                    calculateTotalDiscount(response.discount);
+                } else {
+                    // Kod nie działa, brak rabatu
+                    $("#discount-value").text("Brak rabatu");
+
+                    // Obliczenie bez rabatu
+                    calculateTotalDiscount();
+                }
+            },
+            error: function () {
+                alert("Wystąpił błąd podczas sprawdzania kodu rabatowego.");
+            }
+        });
+    });
+
+    // Pierwsze obliczenie bez rabatu po załadowaniu strony
+    calculateTotalDiscount();
+});
+
 function updateTicketType(index, ticketType) {
     let seats = JSON.parse(sessionStorage.getItem('seats')) || [];
     if (seats[index]) {
@@ -140,28 +214,4 @@ function updateTicketType(index, ticketType) {
     }
 }
 
-// function checkIfAnySeatIsSelected() {
-//     let seats = JSON.parse(sessionStorage.getItem('seats')) || [];
-//     const button = document.getElementById('Przejdz_dalej');
-//     const link = document.getElementById('Przejdz_dalej_link');
-//     if (seats[0]) {
-//         link.setAttribute("href", `/showing/${showing.showing_id}/personal`)
-//         button.classList.remove('btn-secondary', 'disabled');
-//         button.classList.add('btn-primary');
-//     } else {
-//         link.setAttribute("href", ``) 
-//         button.classList.add('btn-secondary', 'disabled');
-//         button.classList.remove('btn-primary');
-//     }
-// }
 
-
-
-// akceptuj regulamin
-document.getElementById('exampleCheck1').addEventListener('change', function() {
-    var submitButton = document.getElementById('submitButton');
-    submitButton.disabled = !this.checked;
-});
-
-// disabled bez kliknięcia
-document.getElementById('submitButton').disabled = true;

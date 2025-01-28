@@ -232,21 +232,6 @@ def seed_db():
 
 
 
-    reservations = [
-        
-        Reservation(
-        reservation_id = 1,
-        ticket_code = "000",
-        showing_id = 1,
-        number_of_tickets = 2,
-        status = "ważny",
-        username = "Test user",
-        email = "testmail@email.com",
-        )
-    ]
-
-    for reservation in reservations:
-        db.session.add(reservation)
 
 
 

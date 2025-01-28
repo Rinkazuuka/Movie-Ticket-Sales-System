@@ -54,6 +54,10 @@ class Reservation(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), nullable=False)
+    row = db.Column(db.Integer, nullable=False)
+    place = db.Column(db.Integer, nullable=False)
+    ticket_type = db.Column(db.String(100), nullable=False)
+
 
 class User(db.Model):
     username = db.Column(db.String, primary_key=True)
@@ -72,6 +76,7 @@ class Seat(db.Model):
     row = db.Column(db.Integer, nullable=False)
     place = db.Column(db.Integer, nullable=False)
     taken = db.Column(db.Boolean, nullable=False, default=False)
+    ticket_type = db.Column(db.String, nullable=True, default='Bilet normalny')
 
     showing = db.relationship("Showing", back_populates="seats")  # Dodaj tę linię
 
