@@ -198,7 +198,7 @@ Podsumowanie z naszego wyboru siedzeń oraz miejsce na wpisanie swoich danych os
 
 To tutaj mozemy zobaczyć podsumowanie naszej rezerwacji, miejsce na kupon rabatowy, koszt naszej rezeracji oraz możemy wybrać sposób płatności, który nas interesuje
 
-![image](https://github.com/user-attachments/assets/814e05e2-5b86-4345-b580-3662a7747f5a)
+![image](https://github.com/user-attachments/assets/22f3f767-4d26-4046-b9b1-9151e56aea69)
 
 ### Finalizacja zakupu
 
@@ -208,8 +208,15 @@ To tutaj otrzymujemy nasz kod biletu, który możemy pobrać
 
 ### Widok logowania do panelu admina 
 
+![image](https://github.com/user-attachments/assets/c96981ed-2fc4-4183-ab10-e911a056f73f)
+
+
 ### Widok weryfikacji biletów przez admina
 
+Admin może sprawdzić ważność biletu
+
+![image](https://github.com/user-attachments/assets/66418dba-262d-4e85-b4d2-99316fb08975)
+![image](https://github.com/user-attachments/assets/d1c9a242-3841-4f48-99a3-f60956d97bc8)
 
 ### Strona 404
 Strona 404 wyświetla się, gdy serwer nie może znaleźć żądanego zasobu.
