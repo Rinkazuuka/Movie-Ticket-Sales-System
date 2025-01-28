@@ -268,16 +268,14 @@ def check_tickets():
 
     return render_template("tickets.html")
 
-
 @app.route("/api/book_seats", methods=["POST"])
 def book_seats():
     # Pobranie danych z ciała żądania JSON
     data = request.get_json()
     # Zapisanie danych w sesji Flask
-
     session["occupiedSeats"] = data  # Zapisujemy całą listę miejsc w sesji
     session.modified = True
-    #   Liczba biletów
+    # Liczba biletów
     number_of_tickets = len(data)
 
     # Pobranie informacji o użytkowniku z sesji
@@ -288,6 +286,22 @@ def book_seats():
     reservation = Reservation.query.filter_by(ticket_code=ticketnumber).all()
     print("Odebrane dane z fetch:", data)  # Debugowanie danych z frontendu
     print("Zapisane miejsca w sesji:", session["occupiedSeats"])  # Debugowanie sesji
+
+    # Sprawdzenie, czy miejsca są już zajęte
+    occupied_seats = []
+    for seat_data in data:
+        seat = Seat.query.filter_by(
+            showing_id=seat_data["showing_id"],
+            row=seat_data["row"],
+            place=seat_data["place"],
+        ).first()
+        if seat and seat.taken:
+            occupied_seats.append(seat_data)
+
+    if occupied_seats:
+        return jsonify({"error": "Przepraszamy, ale niektóre miejsca są już zajęte.", "occupied_seats": occupied_seats}), 400
+
+    # Jeśli miejsca są wolne, dodaj rezerwacje
     if not reservation:
         for seat in data:
             new_reservation = Reservation(

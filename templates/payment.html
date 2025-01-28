@@ -170,7 +170,9 @@
         window.location.href = `/showing/{{showing.showing_id}}/personal/payment/summary`;
       } else {
         // Obsłuż błąd
-        alert('Wystąpił błąd podczas rezerwacji miejsc.');
+        alert('Przepraszamy, ale niektóre miejsca są już zajęte.');
+        window.location.href = `/movie/{{showing.movie_id}}`;
+
       }
     } catch (error) {
       console.error('Error:', error);
