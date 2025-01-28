@@ -55,10 +55,9 @@ def movie_details(movie_id):
     # return render_template("movie.html", movie=movie, showings=showings)
 
 
-
 @app.route("/showing/<showing_id>")
 def showing(showing_id):
-    
+
     tickets = Ticket.query.all()
     showing = Showing.query.filter_by(showing_id=showing_id).first()
     seats = Seat.query.filter_by(showing_id=showing_id).all()
@@ -93,7 +92,6 @@ def payment(showing_id):
         email = request.form.get("user-email")
         session["username"] = username
         session["email"] = email
-        
 
         # losuj unikalny bilet
         session["ticket_number"] = str(uuid.uuid4())[:8]
@@ -124,8 +122,6 @@ def check_coupon():
         return jsonify({"valid": False, "discount": 0})
 
 
-
-
 @app.route("/showing/<showing_id>/personal/payment/summary")
 def summary(showing_id):
     showing = Showing.query.filter_by(showing_id=showing_id).first()
@@ -138,21 +134,25 @@ def summary(showing_id):
     print(ticketnumber, username)
 
     reservations = Reservation.query.filter_by(
-            ticket_code=ticketnumber,
-            username=username,).all()
-    
+        ticket_code=ticketnumber,
+        username=username,
+    ).all()
+
     number_of_tickets = len(reservations)
 
-    return render_template("summary.html", 
-                        showing=showing, 
-                        reservations=reservations,
-                        email=email,
-                        number_of_tickets=number_of_tickets,
-                        ticketnumber=ticketnumber)  # Przekazanie liczby biletów
+    return render_template(
+        "summary.html",
+        showing=showing,
+        reservations=reservations,
+        email=email,
+        number_of_tickets=number_of_tickets,
+        ticketnumber=ticketnumber,
+    )  # Przekazanie liczby biletów
 
 
 from io import BytesIO
 from reportlab.pdfgen import canvas
+
 
 # generowanie biletu pdf
 def generate_pdf_file(reservation, showing, movie, reservations):
@@ -176,14 +176,17 @@ def generate_pdf_file(reservation, showing, movie, reservations):
 
     for i, ticket in enumerate(reservations):
         # Oblicz nową pozycję Y dla każdego biletu
-        p.drawString(100, ticket_start_y - (i * line_height), f"Rząd: {ticket.row}, Miejsce: {ticket.place} - {ticket.ticket_type}")
+        p.drawString(
+            100,
+            ticket_start_y - (i * line_height),
+            f"Rząd: {ticket.row}, Miejsce: {ticket.place} - {ticket.ticket_type}",
+        )
 
     p.showPage()
     p.save()
 
     buffer.seek(0)
     return buffer
-
 
 
 # pobierz pdf
@@ -266,49 +269,52 @@ def check_tickets():
     return render_template("tickets.html")
 
 
-@app.route('/api/book_seats', methods=['POST'])
+@app.route("/api/book_seats", methods=["POST"])
 def book_seats():
     # Pobranie danych z ciała żądania JSON
     data = request.get_json()
     # Zapisanie danych w sesji Flask
-    
-    session['occupiedSeats'] = data  # Zapisujemy całą listę miejsc w sesji
+
+    session["occupiedSeats"] = data  # Zapisujemy całą listę miejsc w sesji
     session.modified = True
- #   Liczba biletów
+    #   Liczba biletów
     number_of_tickets = len(data)
 
     # Pobranie informacji o użytkowniku z sesji
     username = session.get("username", "N/A")
     email = session.get("email", "N/A")
     ticketnumber = session.get("ticket_number", "Nie ma biletu")
-    
+
     reservation = Reservation.query.filter_by(ticket_code=ticketnumber).all()
     print("Odebrane dane z fetch:", data)  # Debugowanie danych z frontendu
-    print("Zapisane miejsca w sesji:", session['occupiedSeats'])  # Debugowanie sesji
+    print("Zapisane miejsca w sesji:", session["occupiedSeats"])  # Debugowanie sesji
     if not reservation:
         for seat in data:
             new_reservation = Reservation(
-                showing_id=seat['showing_id'],
+                showing_id=seat["showing_id"],
                 ticket_code=ticketnumber,
                 username=username,
                 email=email,
                 status="ważny",
-                row=seat['row'],
-                place=seat['place'],
-                ticket_type = seat['ticket_type'],
+                row=seat["row"],
+                place=seat["place"],
+                ticket_type=seat["ticket_type"],
                 number_of_tickets=number_of_tickets,
             )
             db.session.add(new_reservation)
-        
+
     # Przetwarzanie danych (zaznaczenie miejsc jako zajęte w bazie danych)
     for seat_data in data:
-        seat = Seat.query.filter_by(showing_id=seat_data['showing_id'], row=seat_data['row'], place=seat_data['place']).first()
+        seat = Seat.query.filter_by(
+            showing_id=seat_data["showing_id"],
+            row=seat_data["row"],
+            place=seat_data["place"],
+        ).first()
         if seat:
             seat.taken = True  # Ustaw 'taken' na True
     db.session.commit()
 
-    return jsonify({'message': 'Seats booked successfully!'}), 200
-
+    return jsonify({"message": "Seats booked successfully!"}), 200
 
 
 @app.errorhandler(404)
