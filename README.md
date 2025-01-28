@@ -139,6 +139,10 @@ Tabela  z wykonanymi rezerwacjami przez użytkowników.
         created_at = db.Column(db.DateTime, default=datetime.utcnow)                                # Data utworzenia
         username = db.Column(db.String(100), nullable=False)                                        # Nazwa użytkownika
         email = db.Column(db.String(100), nullable=False)                                           # E-mail użytkownika
+        row = db.Column(db.Integer, nullable=False)                                                 # Rząd
+        place = db.Column(db.Integer, nullable=False)                                               # Miejce
+        ticket_type = db.Column(db.String(100), nullable=False)                                     # Typ biletu (ulgowy/normalny)
+        
 
 ### User
 Tabela reprezentuje użytkowników personelu kina wraz z ich danymi do logowania. W swoim projekcie nie zaimplementowałyśmy żadnych zabezpieczeń do logowania, gdyż chciałyśmy tylko przetestować działanie weryfikacji biletów.
@@ -204,7 +208,7 @@ To tutaj mozemy zobaczyć podsumowanie naszej rezerwacji, miejsce na kupon rabat
 
 To tutaj otrzymujemy nasz kod biletu, który możemy pobrać
 
-![image](https://github.com/user-attachments/assets/9aab0bf0-eae7-4d51-861b-470004774509)
+![image](https://github.com/user-attachments/assets/81d6c2de-dc36-4616-a424-b7f6dc741f17)
 
 ### Widok logowania do panelu admina 
 
